@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_02_114330) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_02_155310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "clips", force: :cascade do |t|
+    t.boolean "is_valid"
+    t.boolean "need_votes"
+    t.bigint "user_id"
+    t.bigint "sentence_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sentence_id"], name: "index_clips_on_sentence_id"
+    t.index ["user_id"], name: "index_clips_on_user_id"
+  end
+
+  create_table "sentences", force: :cascade do |t|
+    t.string "content"
+    t.boolean "is_used"
+    t.integer "clips_count"
+    t.boolean "has_valid_clips"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sentences_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

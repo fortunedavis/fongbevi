@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :clips
+  namespace :admin do
+    resources :sentences
+  end
+
   root "home#index"
 
   get 'omniauth_test', to: 'home#display_omniauth'
