@@ -78,6 +78,6 @@ class VotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vote_params
-      params.require(:vote).permit(:is_valid,:clip_id)
+      params.require(:vote).permit(:is_valid,:clip_id,:user_id)
     end
 end

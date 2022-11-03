@@ -27,8 +27,6 @@ class ClipsController < ApplicationController
 
   # POST /clips or /clips.json
   def create
-    
-    
     @clip = Clip.new(clip_params)
     respond_to do |format|
       if @clip.save!
@@ -72,6 +70,6 @@ class ClipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def clip_params
-      params.require(:clip).permit(:is_valid, :need_votes,:audio)
+      params.require(:clip).permit(:is_valid, :need_votes,:audio,:sentence_id)
     end
 end

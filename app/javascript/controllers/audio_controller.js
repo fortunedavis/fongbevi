@@ -60,13 +60,13 @@ export default class extends Controller {
 
           clip_audio.files = container.files;
 
-         //window.player.src = blobURL;
+         window.player.src = blobURL;
         }
   
-        mediaRecorder.addEventListener("stop", function () {
-        	//downloadLink.value = URL.createObjectURL(new Blob(recordedChunks));
+        // mediaRecorder.addEventListener("stop", function () {
+        // 	//downloadLink.value = URL.createObjectURL(new Blob(recordedChunks));
 
-        });
+        // });
   
         mediaRecorder.start();
         window.mediaRecorder = mediaRecorder;
