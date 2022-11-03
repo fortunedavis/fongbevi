@@ -1,4 +1,7 @@
 class ClipsController < ApplicationController
+  wrap_parameters format: []
+  rescue_from ActionController::UnpermittedParameters, with: :render_unpermitted_params_response
+
   before_action :set_clip, only: %i[ show edit update destroy ]
 
   # GET /clips or /clips.json
@@ -12,6 +15,9 @@ class ClipsController < ApplicationController
 
   # GET /clips/new
   def new
+    count = Sentence.count
+    random_offset = rand(count)
+    @sentence = Sentence.offset(random_offset).first
     @clip = Clip.new
   end
 
@@ -21,10 +27,11 @@ class ClipsController < ApplicationController
 
   # POST /clips or /clips.json
   def create
+    
+    
     @clip = Clip.new(clip_params)
-
     respond_to do |format|
-      if @clip.save
+      if @clip.save!
         format.html { redirect_to clip_url(@clip), notice: "Clip was successfully created." }
         format.json { render :show, status: :created, location: @clip }
       else
@@ -65,6 +72,6 @@ class ClipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def clip_params
-      params.require(:clip).permit(:is_valid, :need_votes)
+      params.require(:clip).permit(:is_valid, :need_votes,:audio)
     end
 end

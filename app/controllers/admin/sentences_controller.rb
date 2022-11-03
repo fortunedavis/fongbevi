@@ -1,4 +1,4 @@
-class Admin::SentencesController < ApplicationController
+class Admin::SentencesController < AuthController
   before_action :set_sentence, only: %i[ show edit update destroy ]
 
   # GET /sentences or /sentences.json
@@ -52,7 +52,7 @@ class Admin::SentencesController < ApplicationController
     @sentence.destroy
 
     respond_to do |format|
-      format.html { redirect_to sentences_url, notice: "Sentence was successfully destroyed." }
+      format.html { redirect_to admin_sentences_url, notice: "Sentence was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -65,6 +65,6 @@ class Admin::SentencesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sentence_params
-      params.require(:sentence).permit(:content, :is_used, :clips_count, :has_valid_clips)
+      params.require(:sentence).permit(:content, :is_used, :clips_count, :has_valid_clips,:audio)
     end
 end
