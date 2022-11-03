@@ -71,6 +71,7 @@ GEM
     airbrussh (1.4.1)
       sshkit (>= 1.6.1, != 1.7.0)
     bcrypt (3.1.18)
+    bcrypt_pbkdf (1.1.0)
     bindex (0.8.1)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
@@ -111,6 +112,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    ed25519 (1.3.0)
     erubi (1.11.0)
     faraday (2.6.0)
       faraday-net_http (>= 2.0, < 3.1)
@@ -281,6 +283,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  bcrypt_pbkdf (~> 1)
   bootsnap
   capistrano (~> 3.11)
   capistrano-passenger (~> 0.2.0)
@@ -289,6 +292,7 @@ DEPENDENCIES
   capybara
   debug
   devise
+  ed25519 (~> 1.2)
   importmap-rails
   jbuilder
   omniauth-google-oauth2
