@@ -10,13 +10,33 @@
       </ul>
     </div>
   <% end %>
-  
 
-  <div class="" data-controller="audio">
-    Practice Speaking
+    
+    <div data-controller="dictaphone">
+        <section class="main-controls bg-blue-500 text-blue-500" >
+        <canvas class="visualizer" height="60px"></canvas>
+        <div id="buttons">
+          <button class="record">Record</button>
+          <button class="stop">Stop</button>
+        </div>
+        </section>
+
+        <section class="sound-clips">
+
+        </section>
+
+      <div class="my-5">
+        <audio id="player" controls></audio>
+        <%= form.label :audio %>
+        <%= form.file_field :audio, class: "block mt-2 h-5 w-5" %>
+      </div>
+
+    </div>
+
+  
    
-       <i id="recodingBtn" class="fa-solid fa-microphone"></i>
-    <audio id="player" controls></audio>
+   
+    
   
      <div class="my-5">
       <%= @sentence.content %>
@@ -26,11 +46,8 @@
       <%= form.hidden_field :sentence_id, value: @sentence.id, class: "block mt-2 h-5 w-5" %>
     </div>
 
-    <div class="my-5">
-      <%= form.label :audio %>
-      <%= form.file_field :audio, class: "block mt-2 h-5 w-5" %>
-    </div>
-  </div>
+    
+
 
   <div class="my-5">
     <%= form.label :is_valid %>
