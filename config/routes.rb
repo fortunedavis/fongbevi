@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   resources :votes
   resources :clips
-  resources :admin
+  
   namespace :admin do
     resources :sentences
   end
+
+  resources :admin
 
   root "home#index"
 

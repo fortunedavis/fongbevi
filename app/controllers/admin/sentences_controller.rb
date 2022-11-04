@@ -1,4 +1,5 @@
 class Admin::SentencesController < AuthController
+  layout "admin"
   before_action :set_sentence, only: %i[ show edit update destroy ]
 
   # GET /sentences or /sentences.json
