@@ -1,4 +1,6 @@
+ <% if @clip.present?%>
 <%= form_with(model: vote, class: "contents") do |form| %>
+ 
   <% if vote.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(vote.errors.count, "error") %> prohibited this vote from being saved:</h2>
@@ -11,18 +13,49 @@
     </div>
   <% end %>
 
+  <div class="flex h-screen flex-col items-center justify-center text-slate-500">
+  <div class="flex">
+    <span class="mr-1">Click</span>
+    <p>La phrase a t'elle éte bien prononcée?</p>
+  </div>
+  <div class="mt-10 flex h-80 w-1/2 items-center justify-center border-solid bg-blue-200 p-10 shadow-lg">
+    <p class="">quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.</p>
+  </div>
+
+  <div class="mt-4">
+    <audio id="player" ,class="" controls></audio>
+  </div>
+
+  <div class="mt-5 flex items-center justify-center space-x-10">
+    <button class="flex h-12 w-20 items-center justify-between rounded-full bg-green-400 p-3 text-white shadow-lg hover:bg-green-200">Oui <i class="fa-solid fa-thumbs-up text-black"></i></button>
+    <button class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-400 shadow-lg hover:bg-blue-700">Play</button>
+    <button class="flex h-12 w-20 items-center justify-between rounded-full bg-red-500 p-3 text-white shadow-lg hover:bg-red-200"><i class="fa-solid fa-thumbs-down text-black"></i>Non</button>
+  </div>
+</div>
+
+
   <div class="my-5">
     <%= form.label :is_valid %>
     <%= form.check_box :is_valid, class: "block mt-2 h-5 w-5" %>
   </div>
+ 
    <audio controls="true" width="100%" preload="metadata">
       <source src= <%= rails_blob_url(@clip.audio) %>, type=<%= @clip.audio.content_type %> >
     </audio>
   <div class="my-5">
     <%= form.hidden_field :clip_id, value: @clip.id ,class: "block mt-2 h-5 w-5" %>
   </div>
-
+ 
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
+ 
+   <% end %>
+
+  <% if @clip.present?%>
+    <p> ok</p>
+
+  <% end %>
+
+
 <% end %>
