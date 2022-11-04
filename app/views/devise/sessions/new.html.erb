@@ -21,7 +21,7 @@
                       url: omniauth_authorize_path(resource_name, provider), 
                       method: :post,
                       data: {turbo: "false"} do |f| %>
-                        <%= f.submit "Login",class:"inline-block p-3  text-white font-medium text-xs leading-tight uppercase rounded-full  hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1", type: "image", src: url_for("/assets/btn_google_signin_light_normal_web.png") %>
+                        <%= f.submit "Login",class:"inline-block p-3  text-white font-medium text-xs leading-tight uppercase rounded-full  hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1", type: "image", src: asset_path("btn_google_signin_light_normal_web.png") %>
                     <% end %>
                   <% end %>
                 <% end %>
