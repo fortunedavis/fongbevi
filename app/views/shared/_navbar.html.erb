@@ -18,13 +18,13 @@
         </ul>
         <div class="flex items-center">
           <div class="mr-6 items-center">
-             <i class="fa-solid fa-microphone text-red-600 text-xl mr-1"></i>|<i class="ml-1 text-green-300 fa-solid fa-play text-xl"></i>
+            <%=link_to new_vote_url do%><i class="fa-solid fa-microphone text-red-600 text-xl mr-1"></i><%end%>|<%=link_to new_clip_url do%><i class="ml-1 text-green-300 fa-solid fa-play text-xl"></i><%end%>
           </div>
           <% if current_user %>
-            <h2><%= current_user.email %></h2>
+            <h2 class="text-gray-500 font-bold"><%= current_user.email %></h2>
              <%= button_to "Logout", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
           <% else %>
-              <Link to="/connexion" class="mr-5 text-sm text-white"><%=link_to user_session_url do%><i class="fa-solid fa-right-to-bracket"></i> Login <%end%>| <%=link_to new_user_registration_url do%>Sign Up <i class="fa-solid fa-user-plus"></i><%end%></Link>
+              <Link to="/connexion" class="mr-5 text-sm text-white "><%=link_to user_session_url do%><i class="fa-solid fa-right-to-bracket hover:text-gray-100"></i> Login <%end%>| <%=link_to new_user_registration_url do%>Sign Up <i class="fa-solid fa-user-plus"></i><%end%></Link>
           <% end %>
           <div id="hamburger" class="cursor-pointer space-y-2 md:hidden z-10">
             <div class="h-0.5 w-6 bg-black"></div>
