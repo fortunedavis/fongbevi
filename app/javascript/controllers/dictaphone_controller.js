@@ -10,6 +10,7 @@ export default class extends Controller {
     const soundClips = document.querySelector('.sound-clips');
     const canvas = document.querySelector('.visualizer');
     const mainSection = document.querySelector('.main-controls');
+    document.querySelector("#clip_audio").disabled = true;
 
     stop.disabled = true;
 
@@ -30,8 +31,7 @@ export default class extends Controller {
           mediaRecorder.start();
           console.log(mediaRecorder.state);
           console.log("recorder started");
-          record.style.background = "red";
-    
+          record.style.background = "green";
           stop.disabled = false;
           record.disabled = true;
         }
