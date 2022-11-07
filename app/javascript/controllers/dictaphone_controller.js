@@ -8,15 +8,13 @@ export default class extends Controller {
     const record = document.querySelector('.record');
     const stop = document.querySelector('.stop');
     const soundClips = document.querySelector('.sound-clips');
-    const canvas = document.querySelector('.visualizer');
     const mainSection = document.querySelector('.main-controls');
     document.querySelector("#clip_audio").disabled = true;
 
     stop.disabled = true;
 
     // visualiser setup - create web audio api context and canvas
-    let audioCtx;
-    const canvasCtx = canvas.getContext("2d");
+  
 
     if (navigator.mediaDevices.getUserMedia) {
       console.log('getUserMedia supported.');

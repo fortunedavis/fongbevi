@@ -1,4 +1,4 @@
- <% if @clip.present?%>
+<% if (@objectname != nil) then %>
 <%= form_with(model: vote, class: "contents") do |form| %>
  
   <% if vote.errors.any? %>
@@ -49,13 +49,6 @@
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
- 
-   <% end %>
-
-  <% if @clip.present?%>
-    <p> ok</p>
-
-  <% end %>
-
+<%end%> 
 
 <% end %>
