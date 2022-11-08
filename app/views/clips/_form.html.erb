@@ -23,25 +23,26 @@
    
 
      <div class="grid grid-cols-2 gap-4">
-      <div class="flex mb-6">
+      <div class="flex mb-6" data-action="click->dictaphone#phone">
         <button class="record flex h-16 w-16 text-gray-700 items-center bg-green-500 justify-center rounded-full shadow-lg shadow-blue-500/50 font-bold hover:shadow-blue-500">Parler</button>
-        <button class="stop flex h-16 w-16 items-center bg-red-500 justify-center rounded-full shadow-lg shadow-red-300/50 hover:shadow-red-500 font-bold">Stop</button>
-
+        <span id="audio_length"></span>
       </div>
       <div class="form-group mb-6">
+       
        <audio id="player",class="mt-10 flex h-80 w-1/2 items-center justify-center border-solid bg-blue-600 p-10 shadow-lg text-slate-500" controls></audio>
 
       </div>
     </div>
 
-    <div class="form-group mb-6 invisible ">
-       <%= form.file_field :audio, class: "block mt-2 h-5 w-5" %>
+    
+    <div class="form-group mb-6 invisible">
+       <%= form.file_field :audio, class: "mt-2 " %>
     </div>
      <div class="form-group mb-6 ">
       <%= form.hidden_field :sentence_id, value: @sentence.id, class: "disabled" %>
     </div>
      <div class="container flex justify-center items-center">
-      <%= form.submit "Soumettre",class: "w-1/2
+      <%= form.submit "Soumettre",class: "w-auto
       px-6
       py-2.5
       bg-blue-600

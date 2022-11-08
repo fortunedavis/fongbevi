@@ -1,4 +1,4 @@
 class Clip < ApplicationRecord
   has_one_attached :audio
-  has_many :votes
+  has_one :vote
 end

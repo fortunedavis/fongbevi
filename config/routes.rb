@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   
   namespace :admin do
     resources :sentences
+    resources :clips
+    resources :registrations
+    get "utilisateurs" =>"users#index"
   end
 
   resources :admin

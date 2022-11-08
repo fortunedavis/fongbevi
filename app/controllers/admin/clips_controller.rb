@@ -1,34 +1,26 @@
-class ClipsController < ApplicationController
-  wrap_parameters format: []
-  rescue_from ActionController::UnpermittedParameters, with: :render_unpermitted_params_response
-
+class Admin::ClipsController < ApplicationController
+  layout "admin"
   before_action :set_clip, only: %i[ show edit update destroy ]
 
-  # GET /clips or /clips.json
+  # GET /admin/clips or /admin/clips.json
   def index
     @clips = Clip.all
   end
 
-  # GET /clips/1 or /clips/1.json
+  # GET /admin/clips/1 or /admin/clips/1.json
   def show
   end
 
-  # GET /clips/new
+  # GET /admin/clips/new
   def new
-    count = Sentence.count
-    random_offset = rand(count)
-    @sentence = Sentence.offset(random_offset).first
     @clip = Clip.new
   end
 
-  # GET /clips/1/edit
+  # GET /admin/clips/1/edit
   def edit
   end
 
-  # POST /clips or /clips.json
   def create
-    puts "clips params"
-    puts clip_params
     @clip = Clip.new(clip_params)
     respond_to do |format|
       if @clip.save!
@@ -54,6 +46,7 @@ class ClipsController < ApplicationController
     end
   end
 
+  # DELETE /admin/clips/1 or /admin/clips/1.json
   # DELETE /clips/1 or /clips/1.json
   def destroy
     @clip.destroy

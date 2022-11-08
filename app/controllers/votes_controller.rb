@@ -14,8 +14,10 @@ class VotesController < ApplicationController
   def new
     count = Clip.count
     random_offset = rand(count)
-    @clip = Clip.offset(random_offset).first
-
+   # @clip = Clip.offset(random_offset).first
+    @clip = Clip.first
+    puts "clips debugging"
+    puts @clips
     @vote = Vote.new
   end
 

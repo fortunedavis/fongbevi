@@ -1,47 +1,73 @@
-<nav class="mt-0 w-full bg-blue-500 p-5">
-      <div class="container mx-auto flex justify-between">
-        <div>
-        <i class="fa-solid fa-earth-africa text-white mr-2 text-2xl"></i>
-          <span class="text-2xl font-bold text-white">Fongbè</span>
-        </div>
-        <ul class="hidden items-center space-x-10 text-sm font-bold uppercase text-white md:flex">
-         
-          <li class="hover:text-gray-300">
-              <Link to="/"> Acceuil</Link>
+	<nav class="bg-blue-500  shadow-lg" data-controller="toggle">
+			<div class="max-w-6xl mx-auto px-4">
+				<div class="flex justify-between">
+					<div class="flex space-x-7">
+						<div>
+							<!-- Website Logo -->
+							<a href="/" class="flex items-center py-4 px-2">
+								<img src="logo.png" alt="Logo" class="h-8 w-8 mr-2">
+								<span class="font-semibold text-white text-lg">Fongbevi</span>
+							</a>
+						</div>
+						<!-- Primary Navbar items -->
+						<div class="hidden md:flex items-center space-x-1">
+              <%= link_to new_clip_path,class: "py-4 px-2 text-red-500 font-semibold hover:text-green-500 transition duration-300" do%>Enregistrement<i class="ml-2 fa-solid fa-microphone"></i><%end%>
+              <%= link_to new_vote_path,class: "py-4 px-2 text-green-500 font-semibold hover:text-green-500 transition duration-300" do%>Ecouter<i class="ml-2 fa-solid fa-play"></i><%end%>
+						</div>
+					</div>
+					<!-- Secondary Navbar items -->
+					<div class="hidden md:flex items-center space-x-3 ">
+            	<a href="" class="py-4 px-2 text-white font-semibold hover:text-green-500 transition duration-300">Contactez-nous</a>
+             <% if current_user %>
+               <%=link_to "/admin",class:"py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
+               <%= button_to "Logout", destroy_user_session_path, class:"py-2 px-2 font-medium text-green-500 rounded hover:bg-green-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
+             <% else %>
+              <%= link_to user_session_path,class: "py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Log In<%end%>
+              <%= link_to new_user_registration_path,class: "py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Sign Up<%end%>
+            <%end%>
+        	</div>
+					<!-- Mobile menu button -->
+					<div class="md:hidden flex items-center">
+						<button class="outline-none mobile-menu-button">
+						<svg class=" w-6 h-6 text-white hover:text-green-500 "
+							x-show="!showMenu"
+							fill="none"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path d="M4 6h16M4 12h16M4 18h16"></path>
+						</svg>
+					</button>
+					</div>
+				</div>
+			</div>
+			<!-- mobile menu -->
+			<div class="hidden mobile-menu">
+				<ul class="">
+					<li class="active"><a href="/" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Fongbevi</a></li>
+					<li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact Us</a></li>
+          <li><%= link_to new_clip_path,class: "block text-sm  text-red-500 px-2 py-4 hover:bg-green-500 transition duration-300" do%>Enregistrement<i class="ml-2 fa-solid fa-microphone"></i><%end%></li>
+          <li>
+              <%= link_to new_vote_path,class: "block text-sm text-green-500 px-2 py-4 hover:bg-green-500 transition duration-300" do%>Ecouter<i class="ml-2 fa-solid fa-play"></i><%end%>
           </li>
-          <li class="hover:text-gray-300">
-            <a class="no-underline" href="#">Blog</a>
-          </li>
-          <li class="hover:text-gray-300">
-            <a class="no-underline" href="#">A-propos</a>
-          </li>
+          <div class=" md:flex items-center space-x-3 ">
+             <% if current_user %>
+               <%=link_to "/admin",class:"py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
+               
+               <%= button_to "Logout", destroy_user_session_path, class:"py-2 px-2 font-medium text-green-500 rounded hover:bg-green-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
+             <% else %>
+              <%= link_to user_session_path,class: "py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Log In<%end%>
+              <%= link_to new_user_registration_path,class: "py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Sign Up<%end%>
+            <%end%>
+					</div>
+				
         </ul>
-        <div class="flex items-center">
-          <div class="mr-6 items-center">
-            <%=link_to new_vote_url do%><i class="fa-solid fa-microphone text-red-600 text-xl mr-1"></i><%end%>|<%=link_to new_clip_url do%><i class="ml-1 text-green-300 fa-solid fa-play text-xl"></i><%end%>
-          </div>
-          <% if current_user %>
-            <h2 class="text-gray-500 font-bold"><%= current_user.email %></h2>
-             <%= button_to "Logout", destroy_user_session_path, data: {turbo: "false"}, method: :delete %>
-          <% else %>
-              <Link to="/connexion" class="mr-5 text-sm text-white "><%=link_to user_session_url do%><i class="fa-solid fa-right-to-bracket hover:text-gray-100"></i> Login <%end%>| <%=link_to new_user_registration_url do%>Sign Up <i class="fa-solid fa-user-plus"></i><%end%></Link>
-          <% end %>
-          <div id="hamburger" class="cursor-pointer space-y-2 md:hidden z-10">
-            <div class="h-0.5 w-6 bg-black"></div>
-            <div class="h-0.5 w-6 bg-black"></div>
-            <div class="h-0.5 w-6 bg-black"></div>
-          </div>
-          <ul id="menu" class="hidden absolute left-0 top-0 w-full space-y-4 rounded-b-xl bg-gray-500 p-5 text-sm font-bold uppercase text-white">
-            <li class="hover:text-gray-300">
-              <a class="" href="">Acceuil</a>
-            </li>
-            <li class="hover:text-gray-300">
-              <a class="no-underline" href="">Blog</a>
-            </li>
-            <li class="hover:text-gray-300">
-              <a class="no-underline" href="">A-propos</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+        
+			</div>
+			<script>
+			
+			</script>
+		</nav>

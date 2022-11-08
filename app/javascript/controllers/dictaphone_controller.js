@@ -5,17 +5,14 @@ export default class extends Controller {
   connect() {
     console.log("dictaphone")
     const clip_audio = document.getElementById("clip_audio");
-    const record = document.querySelector('.record');
-    const stop = document.querySelector('.stop');
-    const soundClips = document.querySelector('.sound-clips');
-    const mainSection = document.querySelector('.main-controls');
-    document.querySelector("#clip_audio").disabled = true;
-
-    stop.disabled = true;
-
+    const player = document.querySelector('#player');
+   
+     }
     // visualiser setup - create web audio api context and canvas
   
-
+   phone(e){
+    e.preventDefault();
+    const record = document.querySelector('.record');
     if (navigator.mediaDevices.getUserMedia) {
       console.log('getUserMedia supported.');
       const constraints = { audio: true };
@@ -24,59 +21,36 @@ export default class extends Controller {
       let onSuccess = function(stream) {
         const mediaRecorder = new MediaRecorder(stream);
 
-
-        record.onclick = function() {
-          mediaRecorder.start();
-          console.log(mediaRecorder.state);
-          console.log("recorder started");
-          record.style.background = "green";
-          stop.disabled = false;
-          record.disabled = true;
+        record.onclick = function(e) {
+          e.preventDefault();
+          if (mediaRecorder.state == "inactive"){
+            mediaRecorder.start();
+            console.log("recorder started");
+            record.classList.remove("bg-green-500");
+            record.classList.add("bg-red-500");
+            record.innerHTML = "Stop";
+          }else{
+            mediaRecorder.stop();
+            console.log("state 2",mediaRecorder.state);
+            console.log("recorder stopped");
+            record.classList.remove("bg-red-500");
+            record.classList.add("bg-green-500");
+            record.innerHTML = "Parler";
+            console.log("duration",player.duration)
+          }
+          
         }
 
-
-        stop.onclick = function() {
-          mediaRecorder.stop();
-          console.log(mediaRecorder.state);
-          console.log("recorder stopped");
-          record.style.background = "";
-          record.style.color = "";
-          // mediaRecorder.requestData();
-    
-          stop.disabled = true;
-          record.disabled = false;
-        }
-
-
-        mediaRecorder.onstop = function(e) {
+        mediaRecorder.onstop = function() {
           console.log("data available after MediaRecorder.stop() called.");
-          const player = document.getElementById("player");
-          const clipName = "Clip name";
     
-          // const clipContainer = document.createElement('article');
-          // const clipLabel = document.createElement('p');
-          // const audio = document.createElement('audio');
-          // const deleteButton = document.createElement('button');
-          // const audioType = "audio/ogg; codecs=opus";
-          // clipContainer.classList.add('clip');
-          // audio.setAttribute('controls', '');
-          // deleteButton.textContent = 'Delete';
-          // deleteButton.className = 'delete';
-
-          // clipContainer.appendChild(audio);
-          // clipContainer.appendChild(clipLabel);
-          // clipContainer.appendChild(deleteButton);
-          // soundClips.appendChild(clipContainer)
-
           //audio.controls = true;
           const audioType = "audio/ogg; codecs=opus";
 
           const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
           chunks = [];
           const audioURL = window.URL.createObjectURL(blob);
-          //audio.src = audioURL;
           console.log("recorder stopped");
-
 
           let file = new File([blob], (Math.random() + 1).toString(36).substring(7)+".ogg", {
             type: audioType,
@@ -85,9 +59,16 @@ export default class extends Controller {
           
           let container = new DataTransfer();
           container.items.add(file);
+          console.log("audio url",audioURL);
+         // player.setAttribute('src',audioURL);
+         // console.log("audio url",player.src );
+          document.getElementById("player").setAttribute('src', audioURL);
+          document.getElementById("player").load();
+         // document.getElementById("my-audio").play();
+
+          //player.src = audioURL;
 
           clip_audio.files = container.files;
-          player.src = audioURL;
 
           // deleteButton.onclick = function(e) {
           //   e.target.closest(".clip").remove();
@@ -96,11 +77,7 @@ export default class extends Controller {
           mediaRecorder.ondataavailable = function(e) {
             chunks.push(e.data);
           }
-
-          
-
         }
-        
         
       }
 
