@@ -27,9 +27,9 @@ class ClipsController < ApplicationController
 
   # POST /clips or /clips.json
   def create
-    puts "clips params"
-    puts clip_params
     @clip = Clip.new(clip_params)
+    puts "params"
+    puts clip_params
     respond_to do |format|
       if @clip.save!
         format.html { redirect_to clip_url(@clip), notice: "Clip was successfully created." }

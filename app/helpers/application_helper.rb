@@ -20,4 +20,15 @@ module ApplicationHelper
      '
   end
 
+
+  def current_clip?(test_path)
+    request.path == test_path ? "text-decoration-line: underline py-4 px-2 text-red-500 font-semibold hover:text-gray-100 transition duration-300" :
+    "py-4 px-2 text-red-500 font-semibold hover:text-gray-100 transition duration-300"
+  end
+
+  def current_voice?(test_path)
+    request.path == test_path ? "text-decoration-line: underline py-4 px-2 text-green-700 font-semibold hover:text-gray-100 transition duration-300" :
+    "py-4 px-2 text-green-500 font-semibold hover:text-gray-100 transition duration-300"
+  end
+
 end

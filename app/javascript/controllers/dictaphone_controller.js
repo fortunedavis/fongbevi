@@ -11,7 +11,7 @@ export default class extends Controller {
     // visualiser setup - create web audio api context and canvas
   
    phone(e){
-    e.preventDefault();
+    e.preventDefault()
     const record = document.querySelector('.record');
     if (navigator.mediaDevices.getUserMedia) {
       console.log('getUserMedia supported.');
