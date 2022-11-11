@@ -5,7 +5,6 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-Rails.application.load_seed
 
 Sentence.create!([{
   content: "Ne regardez pas le livre",

@@ -1,4 +1,5 @@
 class VotesController < ApplicationController
+  protect_from_forgery with: :null_session
   before_action :set_vote, only: %i[ show edit update destroy ]
 
   # GET /votes or /votes.json
@@ -36,17 +37,20 @@ class VotesController < ApplicationController
 
   # POST /votes or /votes.json
   def create
+    puts "we are in create"
+    puts vote_params
+   # vote_params.merge(user: current_user)
     @vote = Vote.new(vote_params)
 
-    respond_to do |format|
       if @vote.save
-        format.html { redirect_to vote_url(@vote), notice: "Vote was successfully created." }
-        format.json { render :show, status: :created, location: @vote }
+        #.html { redirect_to vote_url(@vote), notice: "Vote was successfully created." }
+      #  format.json { render :show, status: :created, location: @vote }
+        render json: @vote, status: :created, location: @vote 
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @vote.errors, status: :unprocessable_entity }
+       # format.html { render :new, status: :unprocessable_entity }
+       # format.json { render json: @vote.errors, status: :unprocessable_entity }
+       render json: @vote.errors ,status: :unprocessable_entity
       end
-    end
   end
 
   # PATCH/PUT /votes/1 or /votes/1.json
@@ -80,6 +84,6 @@ class VotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vote_params
-      params.require(:vote).permit(:is_valid,:clip_id).merge(user: current_user)
+      params.require(:vote).permit(:is_valid,:clip_id,:user_id)
     end
 end

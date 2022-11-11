@@ -1,4 +1,5 @@
-<%= form_with(model: vote, class: "contents") do |form| %>
+<div class="mb-10 p-10" data-controller="vote">
+<form id="form">
  
   <% if vote.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -12,40 +13,57 @@
     </div>
   <% end %>
 
-  <div class="flex h-screen flex-col items-center justify-center text-slate-500">
+  <div class="flex flex-col items-center justify-center text-slate-500">
   <div class="flex">
     <span class="mr-1">Click</span>
-    <p>La phrase a t'elle éte bien prononcée?</p>
+    <p>La phrase associée a t'elle éte bien prononcée?</p>
   </div>
   <div class="mt-10 flex h-80 w-1/2 items-center justify-center border-solid bg-blue-200 p-10 shadow-lg">
-    <p class="">quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.</p>
+    <p class=""><%=@clip.sentence.content%></p>
   </div>
 
   <div class="mt-4">
-    <audio id="player" ,class="" controls></audio>
-  </div>
-
-  <div class="mt-5 flex items-center justify-center space-x-10">
-    <button class="flex h-12 w-20 items-center justify-between rounded-full bg-green-400 p-3 text-white shadow-lg hover:bg-green-200">Oui <i class="fa-solid fa-thumbs-up text-black"></i></button>
-    <button class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-400 shadow-lg hover:bg-blue-700">Play</button>
-    <button class="flex h-12 w-20 items-center justify-between rounded-full bg-red-500 p-3 text-white shadow-lg hover:bg-red-200"><i class="fa-solid fa-thumbs-down text-black"></i>Non</button>
-  </div>
-</div>
-
-
-  <div class="my-5">
-    <%= form.label :is_valid %>
-    <%= form.check_box :is_valid, class: "block mt-2 h-5 w-5" %>
-  </div>
- 
    <audio controls="true" width="100%" preload="metadata">
       <source src= <%= rails_blob_url(@clip.audio) %>, type=<%= @clip.audio.content_type %> >
     </audio>
-  <div class="my-5">
-    <%= form.hidden_field :clip_id, value: @clip.id ,class: "block mt-2 h-5 w-5" %>
   </div>
+  
+</div>
+  <div class="">
+    <input
+        type="hidden"
+        name="clip_id"
+        id="clip_id"
+        value= <%=@clip.id%>
+        class="block mt-2"
+      />
+      <% if current_user%>
+       <input
+        type="hidden"
+        name="user_id"
+        id="user_id"
+        value= <%=current_user.id%>
+        class="block mt-2"
+      />
+      <%else%>
+        <input
+        type="hidden"
+        name="user_id"
+        id="user_id"
+        value=1
+        class="block mt-2"
+      />
+      <%end%>
+  </div>
+
+  <div class="flex items-center justify-center space-x-10 mt-5">
+      <button class="flex h-12 w-20 items-center justify-between rounded-full bg-green-400 p-3 text-white shadow-lg hover:bg-green-200" data-action="vote#upvote">Oui <i class="fa-solid fa-thumbs-up text-black"></i></button>
+      <button class="flex h-12 w-20 items-center justify-between rounded-full bg-red-500 p-3 text-white shadow-lg hover:bg-red-200" data-action="vote#downvote"><i class="fa-solid fa-thumbs-down text-black"></i>Non</button>
+  </div>
+  <div class="mt-4 flex items-center justify-center space-x-10 mb-10">
+    <button class="flex h-12 w-20 items-center justify-between rounded-full  p-3 shadow-lg hover:bg-blue" data-action="vote#downvote"><i class="fa-solid fa-forward"></i>Skip</button>
+   </div>
+</form>
+
+</div>
  
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-  </div>
-<% end %>
