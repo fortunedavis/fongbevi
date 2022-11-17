@@ -1,38 +1,45 @@
 import { Controller } from "@hotwired/stimulus"
-var audioElementSource = document.getElementsByClassName("audio-element")[0]
-.getElementsByTagName("source")[0];
-    var microphoneButton = document.getElementsByClassName("start-recording-button")[0];
-    var recordingControlButtonsContainer = document.getElementsByClassName("recording-contorl-buttons-container")[0];
+
     var elapsedTimeTag = document.getElementsByClassName("elapsed-time")[0];
-    var closeBrowserNotSupportedBoxButton = document.getElementsByClassName("close-browser-not-supported-box")[0];
-    var overlay = document.getElementsByClassName("overlay")[0];
+
     var audioElement = document.getElementsByClassName("audio-element")[0];
    
     var textIndicatorOfAudiPlaying = document.getElementsByClassName("text-indication-of-audio-playing")[0];
 
     var audioRecordStartTime;
+
     var maximumRecordingTimeInHours = 1;
 
     var elapsedTimeTimer;
-
     
 
 // Connects to data-controller="recorder"
 export default class extends Controller {
+  static targets = [ 
+    "audioElementSource",
+    "microphoneButton",
+    "recordingControlButtonsContainer",
+    "audioElement",
+   ]
+
   connect() {
+    
   }
 
- // microphoneButton.onclick = this.startAudioRecording();
+ // this.microphoneButtonTarget.onclick = this.startAudioRecording();
 
  // stopRecordingButton.onclick = this.stopAudioRecording();
 
-  //Listen to cancel recording button
+ //Listen to cancel recording button
+
  // cancelRecordingButton.onclick = this.cancelAudioRecording(); 
 
-  //Listen to when the ok button is clicked in the browser not supporting audio recording box
-  //closeBrowserNotSupportedBoxButton.onclick = this.hideBrowserNotSupportedOverlay();
+ //Listen to when the ok button is clicked in the browser not supporting audio recording box
 
-  //Listen to when the audio being played ends
+ //closeBrowserNotSupportedBoxButton.onclick = this.hideBrowserNotSupportedOverlay();
+
+ //Listen to when the audio being played ends
+
  // audioElement.onended = this.hideTextIndicatorOfAudioPlaying();
 
 
@@ -52,28 +59,20 @@ export default class extends Controller {
 
           return navigator.mediaDevices.getUserMedia({ audio: true })
           .then(stream /*of type MediaStream*/ => {
-              console.log("we are here")
               //save the reference of the stream to be able to stop it when necessary
               this.streamBeingCaptured = stream;
-
               //create a media recorder instance by passing that stream into the MediaRecorder constructor
               this.mediaRecorder = new MediaRecorder(stream); /*the MediaRecorder interface of the MediaStream Recording
               API provides functionality to easily record media*/
-
               //clear previously saved audio Blobs, if any
               this.audioBlobs = [];
-
               //add a dataavailable event listener in order to store the audio data Blobs when recording
               this.mediaRecorder.addEventListener("dataavailable", event => {
                   //store audio Blob object
                   this.audioBlobs.push(event.data);
               });
-              console.log("we are here 2")
               //start the recording by calling the start method on the media recorder
               this.mediaRecorder.start();
-
-              console.log("we are here 3")
-
             });
          };
 
@@ -145,19 +144,19 @@ export default class extends Controller {
 
   handleDisplayingRecordingControlButtons() {
     //Hide the microphone button that starts audio recording
-    microphoneButton.style.display = "none";
+    this.microphoneButtonTarget.style.display = "none";
     console.log("display")
     //Display the recording control buttons
-    recordingControlButtonsContainer.classList.remove("hidden");
+    this.recordingControlButtonsContainerTarget.classList.remove("hidden");
     //Handle the displaying of the elapsed recording time
     this.handleElapsedRecordingTime();
   }
 
   handleHidingRecordingControlButtons() {
     //Display the microphone button that starts audio recording
-    microphoneButton.style.display = "block";
+    this.microphoneButtonTarget.style.display = "block";
     //Hide the recording control buttons
-    recordingControlButtonsContainer.classList.add("hidden");
+    this.recordingControlButtonsContainerTarget.classList.add("hidden");
     //stop interval that handles both time elapsed and the red dot
     clearInterval(elapsedTimeTimer);
   }
@@ -174,7 +173,7 @@ export default class extends Controller {
     let sourceElement = document.createElement("source");
     audioElement.appendChild(sourceElement);
 
-    audioElementSource = sourceElement;
+    this.audioElementSourceTarget = sourceElement;
   }
 
   displayTextIndicatorOfAudioPlaying() {
@@ -185,9 +184,7 @@ export default class extends Controller {
     textIndicatorOfAudiPlaying.classList.add("hidden");
   }
 
-  startAudioRecording(e){
-
-    e.preventDefault()
+  startAudioRecording(){
 
     console.log("Recording Audio...");
 
@@ -300,8 +297,8 @@ export default class extends Controller {
 
   displayElapsedTimeDuringAudioRecording(elapsedTime) {
     //1. display the passed elapsed time as the elapsed time in the elapsedTime HTML element
-    elapsedTimeTag.innerHTML = elapsedTime;
-
+        elapsedTimeTag.innerHTML = elapsedTime;
+        console.log("elapsedTimeTag.innerHTML",elapsedTimeTag.innerHTML)
     //2. Stop the recording when the max number of hours is reached
     if (this.elapsedTimeReachedMaximumNumberOfHours(elapsedTime)) {
         this.stopAudioRecording();
@@ -376,14 +373,14 @@ export default class extends Controller {
       //store the base64 URL that represents the URL of the recording audio
       let base64URL = e.target.result;
 
-      if (audioElementSource == null) //if its not defined create it (happens first time only)
+      if (this.audioElementSourceTarget == null) //if its not defined create it (happens first time only)
       this.createSourceForAudioElement();
 
        //set the audio element's source using the base64 URL
-       audioElementSource.src = base64URL;
+       this.audioElementSourceTarget .src = base64URL;
        let BlobType = recorderAudioAsBlob.type.includes(";") ?
        recorderAudioAsBlob.type.substr(0, recorderAudioAsBlob.type.indexOf(';')) : recorderAudioAsBlob.type;
-       audioElementSource.type = BlobType
+       this.audioElementSourceTarget .type = BlobType
 
        //call the load method as it is used to update the audio element after changing the source or other settings
        audioElement.load();
