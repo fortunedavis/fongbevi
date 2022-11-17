@@ -1,4 +1,4 @@
-class ClipsController < ApplicationController
+class ClipsController < AuthController
   wrap_parameters format: []
   rescue_from ActionController::UnpermittedParameters, with: :render_unpermitted_params_response
 

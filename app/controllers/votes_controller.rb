@@ -1,4 +1,4 @@
-class VotesController < ApplicationController
+class VotesController < AuthController
   protect_from_forgery with: :null_session
   before_action :set_vote, only: %i[ show edit update destroy ]
 
@@ -17,7 +17,6 @@ class VotesController < ApplicationController
     random_offset = rand(count)
    # @clip = Clip.offset(random_offset).first
     @clip = Clip.first
-    puts "clips debugging"
     puts @clips
     @vote = Vote.new
   end
