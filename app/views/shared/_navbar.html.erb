@@ -1,35 +1,44 @@
-	<nav class="bg-blue-500  shadow-lg" data-controller="toggle">
+	<nav class=" shadow-lg" data-controller="toggle">
 			<div class="max-w-6xl mx-auto px-4">
 				<div class="flex justify-between">
 					<div class="flex space-x-7">
 						<div>
 							<!-- Website Logo -->
 							<a href="/" class="flex items-center py-4 px-2">
-								<img src="logo.png" alt="Logo" class="h-8 w-8 mr-2">
-								<span class="font-semibold text-white text-lg">Fongbevi</span>
+								<span class="font-semibold bg-blue-500 text-white text-lg py-2 px-2 rounded ">
+									<i class="fa-solid fa-house blue-500"></i>
+									Fongbevi
+								</span>
 							</a>
 						</div>
 						<!-- Primary Navbar items -->
 						<div class="hidden md:flex items-center space-x-1">
               <%= link_to new_clip_path,:class=>current_clip?(new_clip_path) do%>Enregistrement<i class="ml-2 fa-solid fa-microphone"></i><%end%>
-              <%= link_to new_vote_path, :class => current_voice?(new_vote_path) do%>Ecouter<i class="ml-2 fa-solid fa-play"></i><%end%>
+							|
+						  <%= link_to new_vote_path, :class => current_voice?(new_vote_path) do%>Ecouter<i class="ml-2 fa-solid fa-play"></i><%end%>
 						</div>
 					</div>
 					<!-- Secondary Navbar items -->
 					<div class="hidden md:flex items-center space-x-3 ">
-            	<a href="" class="py-4 px-2 text-white font-semibold hover:text-green-500 transition duration-300">Contactez-nous</a>
+            	<a href="" class="py-4 px-2 text-blue font-semibold hover:text-blue-500 transition duration-300">Contactez-nous</a>
              <% if current_user %>
-               <%=link_to "/admin",class:"py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
-               <%= button_to "Logout", destroy_user_session_path, class:"py-2 px-2 font-medium text-green-500 rounded hover:bg-green-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
+               <%=link_to "/admin",class:"py-2 px-2 font-medium bg-blue-500 rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
+               <%= button_to "Deconnexion", destroy_user_session_path, class:"py-2 px-2 bg-blue-500 text-gray-700 font-medium text-blue-200 rounded hover:bg-green-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
              <% else %>
-              <%= link_to user_session_path,class: "py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Log In<%end%>
-              <%= link_to new_user_registration_path,class: "py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Sign Up<%end%>
+            
+
+							<a href="/users/sign_in" class="py-2 px-2 font-medium rounded hover:bg-blue-500 hover:text-white transition duration-300" 
+							>
+								<i class="fa-solid fa-right-from-bracket"></i>
+								Connexion
+							</a>
+							
             <%end%>
         	</div>
 					<!-- Mobile menu button -->
 					<div class="md:hidden flex items-center">
 						<button class="outline-none mobile-menu-button">
-						<svg class=" w-6 h-6 text-white hover:text-green-500 "
+						<svg class=" w-6 h-6  hover:text-blue-500 "
 							x-show="!showMenu"
 							fill="none"
 							stroke-linecap="round"
@@ -47,21 +56,24 @@
 			<!-- mobile menu -->
 			<div class="hidden mobile-menu">
 				<ul class="">
-					<li class="active"><a href="/" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Fongbevi</a></li>
-					<li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact Us</a></li>
-          <li><%= link_to new_clip_path,class: "block text-sm  text-red-500 px-2 py-4 hover:bg-green-500 transition duration-300" do%>Enregistrement<i class="ml-2 fa-solid fa-microphone"></i><%end%></li>
+          <li><%= link_to new_clip_path,class: "block text-sm  px-2 py-2 hover:bg-blue-500 transition duration-300" do%>Enregistrement<i class="text-red-500 ml-2 fa-solid fa-microphone"></i><%end%></li>
           <li>
-              <%= link_to new_vote_path,class: "block text-sm text-green-500 px-2 py-4 hover:bg-green-500 transition duration-300" do%>Ecouter<i class="ml-2 fa-solid fa-play"></i><%end%>
+              <%= link_to new_vote_path,class: "block text-sm px-2 py-2 hover:bg-blue-500 transition duration-300" do%>Ecouter<i class="text-green-500 ml-2 fa-solid fa-play"></i><%end%>
           </li>
-          <div class=" md:flex items-center space-x-3 ">
+					<li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contactez-Nous</a></li>
+
+          <div class=" md:flex items-center space-x-3 mb-5">
              <% if current_user %>
                <%=link_to "/admin",class:"py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
                
-               <%= button_to "Logout", destroy_user_session_path, class:"py-2 px-2 font-medium text-green-500 rounded hover:bg-green-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
+               <%= button_to "Deconnexion", destroy_user_session_path, class:"py-2 px-2 font-medium text-green-500 rounded hover:bg-green-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
              <% else %>
-              <%= link_to user_session_path,class: "py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Log In<%end%>
-              <%= link_to new_user_registration_path,class: "py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Sign Up<%end%>
-            <%end%>
+							<a href="/users/sign_in" class="py-2 px-2 font-medium rounded hover:bg-blue-500 hover:text-white transition duration-300" 
+							data-popover-target= "popover-default">
+								<i class="text-blue-500 fa-solid fa-right-from-bracket"></i>
+								Connexion
+							</a>
+						<%end%>
 					</div>
 				
         </ul>

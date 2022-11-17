@@ -8,13 +8,14 @@ Rails.application.routes.draw do
     resources :registrations
     get "utilisateurs" =>"users#index"
   end
+  
 
   resources :admin
 
   root "home#index"
 
   get 'omniauth_test', to: 'home#display_omniauth'
-
+    
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
     sessions: 'users/sessions',
@@ -24,7 +25,21 @@ Rails.application.routes.draw do
   devise_scope :user do
   get 'sign_out' => 'devise/sessions#destroy'
   end
-    # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  
+  #ApiV1
+  
+  
+  namespace :api , constraints: { format: 'json' } do
+    # devise_for :users, 
+    # controllers: {
+    #  # omniauth_callbacks: 'users/omniauth_callbacks',
+    #  # sessions: 'api/users/sessions',
+    #  # registrations: 'api/users/registrations'
+    # }
+    
+  end
+
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
 end
