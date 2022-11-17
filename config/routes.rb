@@ -29,15 +29,7 @@ Rails.application.routes.draw do
   #ApiV1
   
   
-  namespace :api , constraints: { format: 'json' } do
-    # devise_for :users, 
-    # controllers: {
-    #  # omniauth_callbacks: 'users/omniauth_callbacks',
-    #  # sessions: 'api/users/sessions',
-    #  # registrations: 'api/users/registrations'
-    # }
-    
-  end
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
