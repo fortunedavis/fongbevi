@@ -1,5 +1,7 @@
 class Clip < ApplicationRecord
   has_one_attached :audio
   belongs_to :sentence
-  validates :sentence, :audio, presence: true
+  belongs_to :user
+
+  validates :sentence, :audio, :user,presence: true
 end

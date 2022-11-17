@@ -15,9 +15,10 @@ class ClipsController < ApplicationController
 
   # GET /clips/new
   def new
-    count = Sentence.count
-    random_offset = rand(count)
-    @sentence = Sentence.offset(random_offset).first
+    sentences = Sentence.where(status: false)
+    sentences.without(current_user.sentences)
+    random_offset = rand(sentences.count)
+    @sentence = sentences.offset(random_offset).first
     @clip = Clip.new
   end
 
@@ -28,14 +29,14 @@ class ClipsController < ApplicationController
   # POST /clips or /clips.json
   def create
     @clip = Clip.new(clip_params)
-    puts "params"
-    puts clip_params
+    @clip.user = current_user
+   
     respond_to do |format|
       if @clip.save!
-        format.html { redirect_to clip_url(@clip), notice: "Clip was successfully created." }
+        format.html { redirect_to clip_url(@clip), notice: "Enrégistré avec succès" }
         format.json { render :show, status: :created, location: @clip }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity}
         format.json { render json: @clip.errors, status: :unprocessable_entity }
       end
     end
@@ -72,6 +73,6 @@ class ClipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def clip_params
-      params.require(:clip).permit(:is_valid, :need_votes,:audio,:sentence_id)
+      params.require(:clip).permit(:is_valid, :need_votes,:audio,:sentence_id,:user_id)
     end
 end
