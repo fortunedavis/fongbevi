@@ -25,10 +25,10 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
-  config.omniauth :google_oauth2, ENV['GOOGLE_OAUTH_CLIENT_ID'], ENV['GOOGLE_OAUTH_CLIENT_SECRET']
+  #config.omniauth :google_oauth2, ENV['GOOGLE_OAUTH_CLIENT_ID'], ENV['GOOGLE_OAUTH_CLIENT_SECRET']
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
-
+  
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'
 
@@ -313,8 +313,32 @@ Devise.setup do |config|
   # puts ":google credentital"
   # puts Rails.application.credentials.google.inspect
   # puts ":google_id_client"
-  puts Rails.application.credentials[:GOOGLE_CLIENT_ID].inspect
-  puts Rails.application.credentials[:GOOGLE_SECRET_KEY].inspect
-  config.omniauth :google_oauth2, Rails.application.credentials[:GOOGLE_CLIENT_ID], Rails.application.credentials[:GOOGLE_SECRET_KEY]
+  #puts Rails.application.credentials[:GOOGLE_CLIENT_ID].inspect
+  #puts Rails.application.credentials[:GOOGLE_SECRET_KEY].inspect
+  #config.omniauth :google_oauth2, Rails.application.credentials[:GOOGLE_CLIENT_ID], Rails.application.credentials[:GOOGLE_SECRET_KEY]
+  config.warden do |manager|
+    # manager.intercept_401 = false
+    manager.strategies.add :jwt, Devise::Strategies::JWT
+    manager.default_strategies(scope: :user).unshift :jwt
+  end
 
+  module Devise
+    module Strategies
+      class JWT < Base
+        def valid?
+          request.headers['Authorization'].present?
+        end
+  def authenticate!
+          token = request.headers.fetch('Authorization', '').split(' ').last
+          payload = JsonWebToken.decode(token)
+          success! User.find(payload['sub'])
+        rescue ::JWT::ExpiredSignature
+          fail! 'Auth token has expired'
+        rescue ::JWT::DecodeError
+          fail! 'Auth token is invalid'
+        end
+      end
+    end
+  end
+  
 end

@@ -76,8 +76,6 @@ end
 
 
 gem 'devise'
-gem 'omniauth-google-oauth2'
-gem "omniauth-rails_csrf_protection"
 gem 'devise-jwt'
 
 gem 'capistrano', '~> 3.11'
@@ -87,3 +85,4 @@ gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
 
 gem 'ed25519', '~> 1.2'
 gem 'bcrypt_pbkdf', '~> 1'
+

@@ -1,34 +1,46 @@
 Rails.application.routes.draw do
+  root "home#index"
+ 
   resources :votes
   resources :clips
-  
-  namespace :admin do
-    resources :sentences
-    resources :clips
-    resources :registrations
-    get "utilisateurs" =>"users#index"
-  end
-  
-
   resources :admin
 
-  root "home#index"
 
-  get 'omniauth_test', to: 'home#display_omniauth'
-    
   devise_for :users, controllers: {
-    omniauth_callbacks: 'users/omniauth_callbacks',
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
 
-  devise_scope :user do
-  get 'sign_out' => 'devise/sessions#destroy'
-  end
+
   
   #ApiV1
+  namespace :api do
+    devise_for :users,
+      controllers: {
+        sessions: 'api/users/sessions',
+        registrations: 'api/users/registrations',
+      }
+  end
+
+  #Admin
+  namespace :admin  do
+
+   # devise_for :users,
+    #  controllers: {
+    #    sessions: 'users/sessions',
+    #    passwords: 'users/registrations',
+    #  }
+    
+      resources :sentences
+      resources :clips
+      resources :registrations
+      get "utilisateurs" =>"users#index"
+  end
   
-  
+
+  devise_scope :user do
+    get 'sign_out' => 'devise/sessions#destroy'
+  end
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

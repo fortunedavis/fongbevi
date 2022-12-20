@@ -1,18 +1,39 @@
-# frozen_string_literal: true
-
 class Api::Users::SessionsController < Devise::SessionsController
+  protect_from_forgery with: :null_session
   respond_to :json
+
+  def create
+    user = User.find_by(email: params[:email])
+    puts user
+    if user&.valid_password?(params[:password])
+      render json: { token: JsonWebToken.encode(sub: user.id) }
+    else
+      render json: { errors: 'invalid' }
+    end
+  end
+  
+  def fetch
+    render json: current_user
+  end
+
+
   private
+
   def respond_with(resource, _opts = {})
-    render json: { message: 'Logged.' }, status: :ok
+    render json: { message: 'You are logged in..' }, status: :ok
   end
+
   def respond_to_on_destroy
-    current_user ? log_out_success : log_out_failure
+    log_out_success && return if current_user
+
+    log_out_failure
   end
+
   def log_out_success
-    render json: { message: "Logged out." }, status: :ok
+    render json: { message: "You are logged out." }, status: :ok
   end
+
   def log_out_failure
-    render json: { message: "Logged out failure."}, status: :unauthorized
+    render json: { message: "Hmm nothing happened."}, status: :unauthorized
   end
 end

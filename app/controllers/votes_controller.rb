@@ -23,9 +23,7 @@ class VotesController < AuthController
 
   # GET /votes/1/edit
   def edit
-    puts "clips ici"
     puts @vote.id
-    puts "clips ici"
 
     #@clip = Clip.find(@vote.clip.id)
     count = Clip.count
@@ -36,7 +34,6 @@ class VotesController < AuthController
 
   # POST /votes or /votes.json
   def create
-    puts "we are in create"
     puts vote_params
    # vote_params.merge(user: current_user)
     @vote = Vote.new(vote_params)
