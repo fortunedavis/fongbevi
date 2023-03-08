@@ -1,7 +1,15 @@
 <div id="<%= dom_id clip %>">
   <% if action_name != "show" %>
-    <%= link_to "Show this clip", clip, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this clip', edit_admin_clip_path(clip), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
+
+  <%= clip.sentence.content %>
+    <audio 
+      controls
+      src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block">
+          Your browser does not support the
+          <code>audio</code> element.
+    </audio>
+    <%= link_to "Show", clip, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'valider', edit_admin_clip_path(clip), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6 p-5">
   <% end %>
 </div>

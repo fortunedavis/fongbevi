@@ -1,6 +1,6 @@
 <div class="mb-10 p-10" data-controller="vote">
+<% if @clip.present? %>
 <form id="form">
- 
   <% if vote.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(vote.errors.count, "error") %> prohibited this vote from being saved:</h2>
@@ -23,7 +23,7 @@
   </div>
 
   <div class="mt-4">
-   <audio controls="true" width="100%" preload="metadata">
+   <audio id="myAudio" controls="true" width="100%" preload="metadata">
       <source src= <%= rails_blob_url(@clip.audio) %>, type=<%= @clip.audio.content_type %> >
     </audio>
   </div>
@@ -57,13 +57,30 @@
   </div>
 
   <div class="flex items-center justify-center space-x-10 mt-5">
-      <button class="flex h-12 w-20 items-center justify-between rounded-full bg-green-400 p-3 text-white shadow-lg hover:bg-green-200" data-action="vote#upvote">Oui <i class="fa-solid fa-thumbs-up text-black"></i></button>
-      <button class="flex h-12 w-20 items-center justify-between rounded-full bg-red-500 p-3 text-white shadow-lg hover:bg-red-200" data-action="vote#downvote"><i class="fa-solid fa-thumbs-down text-black"></i>Non</button>
+      <button type="button" 
+      id="yesbutton" 
+      class="flex h-12 w-20 items-center justify-between rounded-full bg-green-400 p-3 text-white shadow-lg hover:bg-green-200"
+      data-action="vote#upvote">Oui 
+      <i class="fa-solid fa-thumbs-up text-black"></i>
+      </button>
+
+      <button type="button" 
+       id="nobutton" 
+      class="flex h-12 w-20 items-center justify-between rounded-full bg-red-500 p-3 text-white shadow-lg hover:bg-red-200" 
+      data-action="vote#downvote">
+      <i class="fa-solid fa-thumbs-down text-black">
+      </i>Non</button>
+      
+     
+
   </div>
   <div class="mt-4 flex items-center justify-center space-x-10 mb-10">
     <button class="flex h-12 w-20 items-center justify-between rounded-full  p-3 shadow-lg hover:bg-blue" data-action="vote#downvote"><i class="fa-solid fa-forward"></i>Skip</button>
    </div>
 </form>
-
+ <%else%>   
+    Bravo!!!  vous venez de terminer l'expérience. L'équipe vous contactera pour 
+    cette prouesse 
+ <%end%>
 </div>
  

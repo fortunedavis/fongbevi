@@ -1,5 +1,52 @@
 # frozen_string_literal: true
 
+#! Create custom failure for turbo
+#class TurboFailureApp < Devise::FailureApp
+ # def respond
+  #  if request_format = :turbo_stream
+   #   redirect
+   # else
+    #  super
+    #end  
+  #end
+
+  #def skip_format?
+  #  %w(html turbo_stream */*).include? request_format.to_s
+  #end
+#end
+
+#class TurboController < ApplicationController
+ # class Responder < ActionController::Responder
+  #  def to_turbo_stream
+  #    controller.render(options.merge(formats: :html))
+   # rescue ActionView::MissingTemplate => error
+   #   if get?
+   #     raise error
+    #  elsif has_errors? && default_action
+    #    render rendering_options.merge(formats: :html, status: :unprocessable_entity)
+    #  else
+    #    redirect_to navigation_location
+    #  end
+    #end
+  #end
+
+  #self.responder = Responder
+  #respond_to :html, :turbo_stream
+#end      
+class TurboFailureApp < Devise::FailureApp
+  def respond
+    if request_format == :turbo_stream
+      redirect
+    else
+      super
+    end
+  end
+
+  def skip_format?
+    %w(html turbo_stream */*).include? request_format.to_s
+  end
+end
+
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -18,8 +65,8 @@ Devise.setup do |config|
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
-  # config.parent_controller = 'DeviseController'
-
+  #config.parent_controller = 'TurboController'
+  config.parent_controller = 'TurboDeviseController'
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
@@ -277,10 +324,11 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  # config.warden do |manager|
+  config.warden do |manager|
+    manager.failure_app = TurboFailureApp
   #   manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
-  # end
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -316,29 +364,40 @@ Devise.setup do |config|
   #puts Rails.application.credentials[:GOOGLE_CLIENT_ID].inspect
   #puts Rails.application.credentials[:GOOGLE_SECRET_KEY].inspect
   #config.omniauth :google_oauth2, Rails.application.credentials[:GOOGLE_CLIENT_ID], Rails.application.credentials[:GOOGLE_SECRET_KEY]
-  config.warden do |manager|
-    # manager.intercept_401 = false
-    manager.strategies.add :jwt, Devise::Strategies::JWT
-    manager.default_strategies(scope: :user).unshift :jwt
+  # config.warden do |manager|
+  #   # manager.intercept_401 = false
+  #   manager.strategies.add :jwt, Devise::Strategies::JWT
+  #   manager.default_strategies(scope: :user).unshift :jwt
+  # end
+
+  # module Devise
+  #   module Strategies
+  #     class JWT < Base
+  #       def valid?
+  #         request.headers['Authorization'].present?
+  #       end
+
+  # def authenticate!
+  #         token = request.headers.fetch('Authorization', '').split(' ').last
+  #         payload = JsonWebToken.decode(token)
+  #         success! User.find(payload['sub'])
+  #       rescue ::JWT::ExpiredSignature
+  #         fail! 'Auth token has expired'
+  #       rescue ::JWT::DecodeError
+  #         fail! 'Auth token is invalid'
+  #       end
+  #     end
+  #   end
+  # end
+  config.jwt do |jwt|
+    jwt.secret = Rails.application.credentials.devise.jwt_secret_key
+     jwt.dispatch_requests = [
+      ['POST', %r{^\/api\/v1\/login$}],
+     ]
+     jwt.revocation_requests = [
+       ['DELETE', %r{^\/api\/v1\/logout$}]
+     ]
+    jwt.expiration_time = 30.day.to_i
   end
 
-  module Devise
-    module Strategies
-      class JWT < Base
-        def valid?
-          request.headers['Authorization'].present?
-        end
-  def authenticate!
-          token = request.headers.fetch('Authorization', '').split(' ').last
-          payload = JsonWebToken.decode(token)
-          success! User.find(payload['sub'])
-        rescue ::JWT::ExpiredSignature
-          fail! 'Auth token has expired'
-        rescue ::JWT::DecodeError
-          fail! 'Auth token is invalid'
-        end
-      end
-    end
-  end
-  
 end

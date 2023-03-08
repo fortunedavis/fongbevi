@@ -1,0 +1,32 @@
+<div id='clips' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+				<thead>
+					<tr>
+						<th data-priority="1">Corpus</th>
+						<th data-priority="2">Audio</th>
+						<th data-priority="2">Status</th>
+						<th data-priority="6">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+        <%@clips.each do |clip|%>
+					<tr>
+						<td><%= clip.sentence.content %></td>
+						<td><audio 
+              controls
+              src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block">
+                  Your browser does not support the
+                  <code>audio</code> element.
+              </audio>
+            </td>
+            <td></td>
+						<td> 
+               <%= link_to "Détails", admin_clip_path(clip), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+            </td>
+					</tr>
+        <%end%>
+				</tbody>
+
+			</table>
+
+		</div>

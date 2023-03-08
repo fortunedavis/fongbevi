@@ -5,8 +5,16 @@ export default class extends Controller {
   connect() {
     console.log("vote controller")
   }
-
   
+  playsong(e) {
+    //var player = document.getElementById('myaudio');
+    var yesbutton = document.getElementById('yesbutton')
+    var halftime = e.duration/2
+    if (e.currentTime >= halftime) {
+      yesbutton.disabled = false;
+
+    }
+  }
   upvote = (e) => {
     e.preventDefault();
     const clip_id = document.getElementById('clip_id')
@@ -20,10 +28,10 @@ export default class extends Controller {
         body: formData,
       })
       .then((res) => res.json())
-      .then((vote) => {
-        console.log(vote)
+      .then((ans) => {
+        console.log(ans)
       })
-
+      location.reload();
   }
 
   downvote = (e) => {
@@ -39,9 +47,13 @@ export default class extends Controller {
         body: formData,
       })
       .then((res) => res.json())
-      .then((vote) => {
-        console.log(vote)
+      .then((data) => {
+        console.log(data)
       })
+      .catch((error)=>{
+        console.log("Error :",error);
+      })
+      location.reload();
   }
 
   

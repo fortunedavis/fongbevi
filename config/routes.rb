@@ -3,8 +3,8 @@ Rails.application.routes.draw do
  
   resources :votes
   resources :clips
-  resources :admin
-
+    #resources :admin
+  get "admin" =>"admin#index"
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         sessions: 'api/users/sessions',
         registrations: 'api/users/registrations',
       }
+      resources :clips  
   end
 
   #Admin
@@ -31,10 +32,13 @@ Rails.application.routes.draw do
     #    passwords: 'users/registrations',
     #  }
     
-      resources :sentences
-      resources :clips
-      resources :registrations
-      get "utilisateurs" =>"users#index"
+    resources :sentences
+    resources :clips
+    resources :registrations
+    get "utilisateurs" =>"users#index" 
+    get "audiosvalidates" =>"clips#clipsvalidated"
+    get "audiosrejetes" =>"clips#clipsrejected"
+    get "audios_sans_vote" =>"clips#clipswithoutvotes"
   end
   
 

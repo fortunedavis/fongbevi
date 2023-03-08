@@ -23,7 +23,7 @@ export default class extends Controller {
    ]
 
   connect() {
-    
+    console.log("this one")
   }
 
  // this.microphoneButtonTarget.onclick = this.startAudioRecording();
@@ -100,8 +100,8 @@ export default class extends Controller {
     filetransfert: function(blob){
       console.log("filetransfert")
       const clip_audio = document.getElementById("clip_audio");
-      const audioType = "audio/ogg; codecs=opus";
-      let file = new File([blob], (Math.random() + 1).toString(36).substring(7)+".ogg", {
+      const audioType = "audio/wav; codecs=opus";
+      let file = new File([blob], (Math.random() + 1).toString(36).substring(7)+".wav", {
         type: audioType,
         lastModified: new Date().getTime(),
       });

@@ -33,6 +33,19 @@ class Admin::ClipsController < ApplicationController
     end
   end
 
+  def clipsvalidated
+    votes = Vote.where(is_valid: true).pluck("clip_id")
+    @clips = Clip.find(votes)
+  end
+
+  def clipsrejected
+    votes = Vote.where(is_valid: false).pluck("clip_id")
+    @clips = Clip.find(votes)
+  end
+  
+  def clipswithoutvotes
+    @clips = Clip.where(need_vote: true)
+  end
   # PATCH/PUT /clips/1 or /clips/1.json
   def update
     respond_to do |format|

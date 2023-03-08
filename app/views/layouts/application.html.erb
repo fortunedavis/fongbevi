@@ -10,8 +10,11 @@
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
+   
 
   <body class="flex flex-col h-screen justify-between">
+  <p class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"><%= notice %></p>
+  <p class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"><%= alert %></p>
   <%=render "shared/navbar"%>
       <%= yield %>
   <%=render "shared/footer"%>

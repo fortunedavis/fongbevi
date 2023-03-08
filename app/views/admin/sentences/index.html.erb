@@ -6,36 +6,34 @@
   <% end %>
 
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Sentences</h1>
-    <%= link_to 'New sentence', new_admin_sentence_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <h1 class="font-bold text-4xl">Liste des Phrases</h1>
+    <%= link_to 'Ajouter une Phrase', new_admin_sentence_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 		
 
 
 		<!--Card-->
 		<div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-
-
 			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
 				<thead>
 					<tr>
-						<th data-priority="1">Contenu</th>
-						<th data-priority="2">Status</th>
-						<th data-priority="3">Nombre d'audios</th>
-						<th data-priority="4">Etat</th>
+						<th data-priority="1">Corpus</th>
+						<th data-priority="2">Status[]</th>
+						<th data-priority="3">A un clip</th>
+						<th data-priority="4">Clip Validé</th>
 						<th data-priority="6">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-        <%@sentences.each do |sentence|%>
+        <% @sentences.each do |sentence| %>
 					<tr>
 						<td><%= sentence.content %></td>
-						<td><%= sentence.is_used %></td>
-						<td><%= sentence.clips_count %></td>
+						<td><%= sentence.status %></td>
+						<td><%= sentence.has_clip %></td>
 						<td><%= sentence.has_valid_clips %></td>
 						<td> <%= link_to "Show", admin_sentence_path(sentence), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit', edit_admin_sentence_path(sentence), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-   </td>
+							<%= link_to 'Edit', edit_admin_sentence_path(sentence), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+						</td>
 					</tr>
         <%end%>
 				</tbody>

@@ -1,7 +1,7 @@
 class VotesController < AuthController
   protect_from_forgery with: :null_session
   before_action :set_vote, only: %i[ show edit update destroy ]
-
+  before_action :get_vote, only: %i[new]
   # GET /votes or /votes.json
   def index
     @votes = Vote.all
@@ -13,39 +13,39 @@ class VotesController < AuthController
 
   # GET /votes/new
   def new
-    count = Clip.count
-    random_offset = rand(count)
-   # @clip = Clip.offset(random_offset).first
-    @clip = Clip.first
-    puts @clips
     @vote = Vote.new
   end
 
   # GET /votes/1/edit
   def edit
-    puts @vote.id
-
     #@clip = Clip.find(@vote.clip.id)
-    count = Clip.count
-    random_offset = rand(count)
-    @clip = Clip.offset(random_offset).first
-
+    #count = Clip.count
+    # random_offset = rand(count)
+    # @clip = Clip.offset(random_offset).first
   end
 
   # POST /votes or /votes.json
   def create
-    puts vote_params
-   # vote_params.merge(user: current_user)
-    @vote = Vote.new(vote_params)
+      # vote_params.merge(user: current_user)
+     votes = Vote.all
+      
+      @vote = Vote.new(vote_params)
 
-      if @vote.save
-        #.html { redirect_to vote_url(@vote), notice: "Vote was successfully created." }
-      #  format.json { render :show, status: :created, location: @vote }
-        render json: @vote, status: :created, location: @vote 
+      if @vote.save!
+        clip = Clip.find(@vote.clip_id)
+        clip.update(is_valid: @vote.is_valid,need_vote: false)
+        puts "done here"
+        respond_to do |format|  
+        format.html { redirect_to vote_url(@vote), notice: "Vote was successfully created." }
+        #format.json { render :show, status: :created, location: @vote }
+        #alpha =  ClipSentence.create(clip_id: @vote.clip_id, sentence_id: @vote.clip.sentence_id)
+        #render json: {clip: votes}.to_json, status: :created
+        end
       else
+        render :new 
        # format.html { render :new, status: :unprocessable_entity }
        # format.json { render json: @vote.errors, status: :unprocessable_entity }
-       render json: @vote.errors ,status: :unprocessable_entity
+       #render json: @vote.errors ,status: :unprocessable_entity
       end
   end
 
@@ -78,6 +78,19 @@ class VotesController < AuthController
       @vote = Vote.find(params[:id])
     end
 
+    def get_vote
+
+      # We want to avoid the user to have to validate an audio of other user linked to a sentence he has also submitted
+      user_submitted_sentences_clips_for_other_users = Clip.find(current_user.sentences.pluck("id"))
+      # 
+      user_clips_validated = current_user.clips
+      user_clips_created = current_user.records
+      clips = Clip.where(need_vote: true).without(user_clips_validated).without(user_clips_created)
+      .without(user_submitted_sentences_clips_for_other_users)
+
+      random_offset = rand(clips.count)
+      @clip = clips.offset(random_offset).first
+    end
     # Only allow a list of trusted parameters through.
     def vote_params
       params.require(:vote).permit(:is_valid,:clip_id,:user_id)

@@ -3,12 +3,45 @@
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex justify-between items-center">
+  <div class="flex items-center">
     <h1 class="font-bold text-4xl">Clips</h1>
-    <%= link_to 'New clip', new_admin_clip_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to 'Audios Validés',  admin_audiosvalidates_path, class: "m-2 rounded-lg py-3 px-5 bg-green-500 text-white block font-medium" %>
+    <%= link_to 'Audios rejetés', admin_audiosrejetes_path, class: "m-2 rounded-lg py-3 px-5 bg-red-400 text-white block font-medium" %>
+    <%= link_to 'Audios non écoutés', admin_audios_sans_vote_path, class: "m-2 rounded-lg py-3 px-5 bg-blue-500 text-white block font-medium" %>
+    <%= link_to "csv", admin_clips_path(format: :csv),class: "m-2 rounded-lg py-3 px-5 bg-blue-500 text-white block font-medium" %>
   </div>
 
-  <div id="admin_clips" class="min-w-full">
-    <%= render @clips %>
-  </div>
+
+  <div id='clips' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+				<thead>
+					<tr>
+						<th data-priority="1">Corpus</th>
+						<th data-priority="2">Audio</th>
+						<th data-priority="2">Status</th>
+						<th data-priority="6">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+        <%@clips.each do |clip|%>
+					<tr>
+						<td><%= clip.sentence.content %></td>
+						<td><audio 
+              controls
+              src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block">
+                  Your browser does not support the
+                  <code>audio</code> element.
+              </audio>
+            </td>
+            <td></td>
+						<td> 
+               <%= link_to "Détails", admin_clip_path(clip), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+            </td>
+					</tr>
+        <%end%>
+				</tbody>
+
+			</table>
+
+		</div>
 </div>

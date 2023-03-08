@@ -7,6 +7,11 @@ class ClipsController < AuthController
   # GET /clips or /clips.json
   def index
     @clips = Clip.all
+    
+    respond_to do |format|
+      format.html
+      format.csv { send_data Clip.to_csv, filename: "clips-#{DateTime.now.strftime("%d%m%Y%H%M")}.csv"}
+    end
   end
 
   # GET /clips/1 or /clips/1.json
@@ -15,8 +20,11 @@ class ClipsController < AuthController
 
   # GET /clips/new
   def new
-    sentences = Sentence.where(status: false)
-    sentences.without(current_user.sentences)
+    sentences = Sentence.where(has_clip: false)
+    #user_sentences = current_user.sentences   
+    
+   
+    #sentences = sentences.without(user_sentences)
     random_offset = rand(sentences.count)
     @sentence = sentences.offset(random_offset).first
     @clip = Clip.new
@@ -28,13 +36,17 @@ class ClipsController < AuthController
 
   # POST /clips or /clips.json
   def create
-    @clip = Clip.new(clip_params)
-    @clip.user = current_user
-   
+    @clip = Clip.new(clip_params.merge({ user: current_user }))
     respond_to do |format|
       if @clip.save!
-        format.html { redirect_to clip_url(@clip), notice: "Enrégistré avec succès" }
-        format.json { render :show, status: :created, location: @clip }
+        sentence_id = @clip.sentence_id
+        UserSentence.create(user: current_user, sentence_id: sentence_id)
+        Sentence.find(@clip.sentence_id).update(has_clip: true)
+        # We need to set the sentence has_clip params to true if the clip is saved
+        sentence = Sentence.find(sentence_id)
+        sentence.update(has_clip: true)
+        format.html { redirect_to new_clip_url , notice: "Clip was successfully updated."}
+        format.json {:ok}
       else
         format.html { render :new, status: :unprocessable_entity}
         format.json { render json: @clip.errors, status: :unprocessable_entity }

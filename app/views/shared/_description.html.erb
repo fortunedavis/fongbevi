@@ -24,3 +24,6 @@
     <p>Nous travaillons dans un contexte ou les langues africaines ne sont pas favorisées par les technologies de l'intelligence artificiel à cause du manque de donnée.</p></div>
   </div>
 </div>
+<%= line_chart User.group_by_day(:created_at).count, width: "500px", height: "500px"  %>
+<%= area_chart Clip.group_by_day(:created_at).count, width: "500px", height: "500px"  %>
+<%= bar_chart User.group(:sex).count, width: "500px", height: "500px", colors: ["#b00", "#666"]%>

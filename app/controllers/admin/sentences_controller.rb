@@ -1,4 +1,5 @@
 class Admin::SentencesController < AuthController
+  protect_from_forgery with: :null_session
   layout "admin"
   before_action :set_sentence, only: %i[ show edit update destroy ]
 
@@ -66,6 +67,6 @@ class Admin::SentencesController < AuthController
 
     # Only allow a list of trusted parameters through.
     def sentence_params
-      params.require(:sentence).permit(:content, :is_used, :clips_count, :has_valid_clips,:audio)
+      params.require(:sentence).permit(:content, :is_used, :clips_count, :has_valid_clips)
     end
 end

@@ -1,5 +1,5 @@
 <div class="mx-auto md:w-2/3 w-full">
-
-  <%= render "form", vote: @vote %>
-
+  <%= turbo_frame_tag "first_turbo_frame" do %>
+    <%= render "form", vote: @vote %>
+  <% end %>
 </div>
