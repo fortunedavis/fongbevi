@@ -8,7 +8,8 @@
     <%= link_to 'Audios Validés',  admin_audiosvalidates_path, class: "m-2 rounded-lg py-3 px-5 bg-green-500 text-white block font-medium" %>
     <%= link_to 'Audios rejetés', admin_audiosrejetes_path, class: "m-2 rounded-lg py-3 px-5 bg-red-400 text-white block font-medium" %>
     <%= link_to 'Audios non écoutés', admin_audios_sans_vote_path, class: "m-2 rounded-lg py-3 px-5 bg-blue-500 text-white block font-medium" %>
-    <%= link_to "csv", admin_clips_path(format: :csv),class: "m-2 rounded-lg py-3 px-5 bg-blue-500 text-white block font-medium" %>
+    <%= link_to "csv",admin_clips_path(format: :csv),class: "m-2 rounded-lg py-3 px-5 bg-blue-500 text-white block font-medium" %>
+    <button id="sheetjsexport"><b>Export as XLSX</b></button>
   </div>
 
 
@@ -45,3 +46,16 @@
 
 		</div>
 </div>
+  <script>
+       console.log("connected")
+
+       alpha = document.getElementById('sheetjsexport')
+       console.log(alpha)
+       document.getElementById("sheetjsexport").addEventListener('click', function() {
+      /* Create worksheet from HTML DOM TABLE */
+      var wb = XLSX.utils.table_to_book(document.getElementById("example"));
+      /* Export to file (start a download) */
+      XLSX.writeFile(wb, "SheetJSTable.Date.xlsx");
+      });
+      	
+   </script>

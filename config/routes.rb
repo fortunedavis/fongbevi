@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   root "home#index"
  
-  resources :votes
-  resources :clips
+  resources :votes, except: [:index,:edit, :update, :show, :destroy]
+  resources :clips, except: [:index,:edit, :update, :show, :destroy]
     #resources :admin
   get "admin" =>"admin#index"
 
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         sessions: 'api/users/sessions',
         registrations: 'api/users/registrations',
       }
-      resources :clips  
+      resources :clips ,except:[:edit, :update, :show, :destroy]
   end
 
   #Admin

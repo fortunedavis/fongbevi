@@ -377,10 +377,10 @@ export default class extends Controller {
       this.createSourceForAudioElement();
 
        //set the audio element's source using the base64 URL
-       this.audioElementSourceTarget .src = base64URL;
+       this.audioElementSourceTarget.src = base64URL;
        let BlobType = recorderAudioAsBlob.type.includes(";") ?
        recorderAudioAsBlob.type.substr(0, recorderAudioAsBlob.type.indexOf(';')) : recorderAudioAsBlob.type;
-       this.audioElementSourceTarget .type = BlobType
+       this.audioElementSourceTarget.type = BlobType
 
        //call the load method as it is used to update the audio element after changing the source or other settings
        audioElement.load();

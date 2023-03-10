@@ -24,6 +24,18 @@ class User < ApplicationRecord
    # self.role ||= :user
   #end
   
-  
+ 
+
+  def jwt
+    payload = {
+      sub: id,
+      scp: "user",
+      aud: "null",
+      iat:Time.now.to_i,
+      exp: (Time.now + 2.weeks).to_i,
+      jti: SecureRandom.uuid 
+    }
+    JWT.encode(payload,  Rails.application.credentials.devise.jwt_secret_key, 'HS256')
+  end 
   
 end

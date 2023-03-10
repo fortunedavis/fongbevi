@@ -5,8 +5,29 @@ class Admin::ClipsController < ApplicationController
   # GET /admin/clips or /admin/clips.json
   def index
     @clips = Clip.all
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        send_data generate_csv(@waves),
+                  filename: "waves-#{Date.today}.csv",
+                  type: 'text/csv; charset=utf-8',
+                  disposition: 'attachment'
+      end
+    end
   end
 
+  def download_wav
+    wave = Clip.all
+
+    send_data wave.audio_blob.download,
+              filename: "#{wave.id}.wav",
+              type: 'audio/wav',
+              disposition: 'attachment'
+  end
+
+
+  
   # GET /admin/clips/1 or /admin/clips/1.json
   def show
   end
@@ -80,4 +101,15 @@ class Admin::ClipsController < ApplicationController
     def clip_params
       params.require(:clip).permit(:is_valid, :need_votes,:audio,:sentence_id)
     end
+   
+
+    def generate_csv(waves)
+      CSV.generate(headers: true) do |csv|
+        csv << ['Time', 'Height', 'Period', 'WAV']
+        waves.each do |wave|
+          csv << [wave.time, wave.height, wave.period, wave.id]
+        end
+      end
+    end
+
 end
