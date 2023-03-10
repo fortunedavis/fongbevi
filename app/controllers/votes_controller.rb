@@ -81,12 +81,12 @@ class VotesController < AuthController
     def get_vote
 
       # We want to avoid the user to have to validate an audio of other user linked to a sentence he has also submitted
-      user_submitted_sentences_clips_for_other_users = Clip.find(current_user.sentences.pluck("id"))
+      #user_submitted_sentences_clips_for_other_users = Clip.find(current_user.sentences.pluck("id"))
       # 
       user_clips_validated = current_user.clips
       user_clips_created = current_user.records
       clips = Clip.where(need_vote: true).without(user_clips_validated).without(user_clips_created)
-      .without(user_submitted_sentences_clips_for_other_users)
+      #.without(user_submitted_sentences_clips_for_other_users)
 
       random_offset = rand(clips.count)
       @clip = clips.offset(random_offset).first
