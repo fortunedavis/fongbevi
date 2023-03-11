@@ -20,8 +20,8 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: 127.0.0.1
-  password: root
+  #host: 127.0.0.1
+  #password: root
 
 development:
   <<: *default
@@ -85,7 +85,7 @@ production:
   <<: *default
   database: fongbevi_production
   username: fongbevi
- # password: <%= ENV["FONGBEVI_DATABASE_PASSWORD"] %>
-  password: root
+  password: <%= ENV["FONGBEVI_DATABASE_PASSWORD"] %>
+ # password: root
 
 
