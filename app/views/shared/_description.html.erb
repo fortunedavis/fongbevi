@@ -1,13 +1,5 @@
 
-<div class="md:flex mt-40 md:space-x-10 items-start">
-<div data-aos="fade-down" class="md:w-6/12 relative aos-init aos-animate">
-<div class="w-32 h-32 rounded-full absolute z-0 left-4 -top-12 animate-pulse" style="background: rgb(51, 239, 160);"></div>
-<div class="w-5 h-5 rounded-full absolute z-0 left-36 -top-12 animate-ping" style="background: rgb(51, 217, 239);"></div>
-<img src="img/vcall.png" alt="" class="relative z-50 floating">
-<div class="w-36 h-36 rounded-full absolute z-0 right-16 -bottom-1 animate-pulse" style="background: rgb(91, 97, 235);"></div>
-<div class="w-5 h-5 rounded-full absolute z-0 right-52 bottom-1 animate-ping" style="background: rgb(245, 102, 102);"></div></div><div data-aos="fade-down" class="md:w-5/12 mt-20 md:mt-0 text-gray-500 aos-init aos-animate"><h1 class="text-2xl font-semibold text-darken lg:pr-40">
-
-<span class="text-yellow-500">Fondement</span> du projet</h1>
+<div class="md:flex mt-10 md:space-x-10 items-start">
 <div class="flex items-center space-x-5 my-5">
 <div class="flex-shrink bg-white shadow-lg rounded-full p-3 flex items-center justify-center">
 <svg viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"><rect width="11.8182" height="11.8182" rx="2" fill="#2F327D"></rect><rect y="14.1816" width="11.8182" height="11.8182" rx="2" fill="#2F327D"></rect><rect x="14.7727" width="11.8182" height="11.8182" rx="2" fill="#2F327D"></rect><rect x="14.7727" y="14.1816" width="11.8182" height="11.8182" rx="2" fill="#F48C06"></rect></svg></div>
@@ -24,6 +16,33 @@
     <p>Nous travaillons dans un contexte ou les langues africaines ne sont pas favorisées par les technologies de l'intelligence artificiel à cause du manque de donnée.</p></div>
   </div>
 </div>
-<%= line_chart User.group_by_day(:created_at).count, width: "500px", height: "500px"  %>
-<%= area_chart Clip.group_by_day(:created_at).count, width: "500px", height: "500px"  %>
-<%= bar_chart User.group(:sex).count, width: "500px", height: "500px", colors: ["#b00", "#666"]%>
+
+<section class="wow fadeInDown md:flex mt-10 md:space-x-10 justify-center" data-wow-offset="10"  data-wow-iteration="10">
+  	<div class="animate__animated animate__fadeInLeft flex flex-wrap flex-row">
+        <div class="flex-shrink max-w-1/3 px-4 w-full lg:w-1/3">
+          		<div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-6">
+          			<div class="flex flex-row justify-between pb-6">
+								  <div class="flex flex-col">
+		                <h3 class="text-base font-bold">Inscription des Utilisateurs</h3>
+		              </div>
+		            </div>
+	              <div class="relative">
+                  <%= line_chart User.group_by_day(:created_at).count, width: "400px", height: "200px"%>
+	              </div>
+							</div>
+						</div>
+       </div>   
+       <div class="animate__animated animate__fadeInRight">
+          		<div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-6">
+          			<div class="flex flex-row justify-between pb-6">
+								  <div class="flex flex-col">
+		                <h3 class="text-base font-bold">Fréquence des enrégistrements</h3>
+		              </div>
+		            </div>
+	              <div class="relative">
+                  <%= area_chart Clip.group_by_day(:created_at).count, width: "400px", height: "200px"  %>
+	              </div>
+							</div>
+						</div>
+       </div>     
+</section>

@@ -6,11 +6,11 @@ class Api::Users::SessionsController < Devise::SessionsController
     user = User.find_by(email: params[:user][:email])
     
     if user&.valid_password?(params[:user][:password])
-      sign_user = sign_in(:user, user)
-      token = sign_user.jwt
-       render json: token.to_json
+      user = sign_in(:user, user)
+      #token = sign_user.jwt
+      # render json: token.to_json
       #render json: { token: JsonWebToken.encode(user_id: user.id) }
-     #render json:{user: sign_user}
+     render json:{user: user}
     else
       render json: { errors: 'Identifiant invalid' }, status: :unprocessable_entity
     end
