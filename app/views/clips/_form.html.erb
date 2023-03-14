@@ -18,7 +18,7 @@
       <p class='text-slate-500'>Veuiller prononcer à hautre voix la traduction en Fongbe</p>
     </div>     
     <div class="animate__animated animate__bounceInLeft ">
-    <div class="relative form-group mb-6 mt-10 flex h-80 w-full items-center justify-center border-solid bg-blue-100 p-10 shadow-lg text-slate-600 ">
+    <div class="animate__rubberBand relative form-group mb-6 mt-10 flex h-80 w-full items-center justify-center border-solid bg-blue-100 p-10 shadow-lg text-slate-600 ">
       <button class="text-xl absolute bottom-1 left-1 bg-white rounded-full hover:bg-green-500">Skip(passer)</button>
       <p class="text-xl"><%= @sentence.content if @sentence.present?%></p>
     </div>
@@ -30,20 +30,25 @@
 
      <div class="flex items-center justify-center flex-wrap">
         <div class="form-group mb-6">
+
               <i class="start-recording-button
               text-5xl text-red-500
               cursor-pointer
               mr-5
-              fa fa-microphone" aria-hidden="true" data-action="click->recorder#startAudioRecording"
-              data-recorder-target="microphoneButton"></i>
+              fa fa-microphone"
+              aria-hidden="true" 
+              data-action="click->recorder#startAudioRecording"
+              data-recorder-target="microphoneButton">
+              </i>
+
               <div class="recording-contorl-buttons-container hidden flex" data-recorder-target="recordingControlButtonsContainer">
                 <i class="cancel-recording-button text-5xl text-red-500 fa-solid fa-circle-xmark hover:text-red-300" aria-hidden="true" data-action="click->recorder#cancelAudioRecording"></i>
-                  <p  class="elapsed-time text-5xl">----<p>
+                  <p  class="elapsed-time text-5xl" data-recorder-target="elapsedTime">----<p>
                 <i class="stop-recording-button text-5xl text-green-500 mr-5 fa-solid fa-circle-stop hover:text-green-300" aria-hidden="true" data-action="click->recorder#stopAudioRecording"></i>
               </div>
         </div>
         <div class="form-group mb-6">
-          <audio controls class="audio-element hide" data-recorder-target="audioElementSource" data-recorder-target="audioElement">
+          <audio controls class="audio-element hide" data-recorder-target="audioElement">
           </audio>
         </div>
     </div>

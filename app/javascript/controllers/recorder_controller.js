@@ -20,27 +20,21 @@ export default class extends Controller {
     "microphoneButton",
     "recordingControlButtonsContainer",
     "audioElement",
+    "elapsedTime"
    ]
 
   connect() {
     console.log("this one")
   }
 
- // this.microphoneButtonTarget.onclick = this.startAudioRecording();
-
- // stopRecordingButton.onclick = this.stopAudioRecording();
-
+ //this.microphoneButtonTarget.onclick = this.startAudioRecording();
+ //stopRecordingButton.onclick = this.stopAudioRecording();
  //Listen to cancel recording button
-
  // cancelRecordingButton.onclick = this.cancelAudioRecording(); 
-
  //Listen to when the ok button is clicked in the browser not supporting audio recording box
-
  //closeBrowserNotSupportedBoxButton.onclick = this.hideBrowserNotSupportedOverlay();
-
  //Listen to when the audio being played ends
-
- // audioElement.onended = this.hideTextIndicatorOfAudioPlaying();
+ //audioElement.onended = this.hideTextIndicatorOfAudioPlaying();
 
 
   audioRecorder = {
@@ -73,7 +67,7 @@ export default class extends Controller {
               });
               //start the recording by calling the start method on the media recorder
               this.mediaRecorder.start();
-            });
+            });   
          };
 
       },
@@ -145,7 +139,9 @@ export default class extends Controller {
   handleDisplayingRecordingControlButtons() {
     //Hide the microphone button that starts audio recording
     this.microphoneButtonTarget.style.display = "none";
+    
     console.log("display")
+
     //Display the recording control buttons
     this.recordingControlButtonsContainerTarget.classList.remove("hidden");
     //Handle the displaying of the elapsed recording time
@@ -173,7 +169,7 @@ export default class extends Controller {
     let sourceElement = document.createElement("source");
     audioElement.appendChild(sourceElement);
 
-    this.audioElementSourceTarget = sourceElement;
+    this.audioElementTarget = sourceElement;
   }
 
   displayTextIndicatorOfAudioPlaying() {
@@ -188,12 +184,12 @@ export default class extends Controller {
 
     console.log("Recording Audio...");
 
-    let recorderAudioIsPlaying = !audioElement.paused;
+    let recorderAudioIsPlaying = !this.audioElementTarget.paused;
 
     console.log("paused?", !recorderAudioIsPlaying);
 
     if (recorderAudioIsPlaying) {
-      audioElement.pause();
+      this.audioElementTarget.pause();
       this.hideTextIndicatorOfAudioPlaying();
     }
 
@@ -297,8 +293,8 @@ export default class extends Controller {
 
   displayElapsedTimeDuringAudioRecording(elapsedTime) {
     //1. display the passed elapsed time as the elapsed time in the elapsedTime HTML element
-        elapsedTimeTag.innerHTML = elapsedTime;
-        console.log("elapsedTimeTag.innerHTML",elapsedTimeTag.innerHTML)
+        this.elapsedTimeTarget.innerHTML = elapsedTime;
+        console.log("elapsedTimeTag.innerHTML",this.elapsedTimeTarget.innerHTML)
     //2. Stop the recording when the max number of hours is reached
     if (this.elapsedTimeReachedMaximumNumberOfHours(elapsedTime)) {
         this.stopAudioRecording();
@@ -373,17 +369,17 @@ export default class extends Controller {
       //store the base64 URL that represents the URL of the recording audio
       let base64URL = e.target.result;
 
-      if (this.audioElementSourceTarget == null) //if its not defined create it (happens first time only)
+      if (this.audioElementTarget == null) //if its not defined create it (happens first time only)
       this.createSourceForAudioElement();
 
        //set the audio element's source using the base64 URL
-       this.audioElementSourceTarget.src = base64URL;
+       this.audioElementTarget.src = base64URL;
        let BlobType = recorderAudioAsBlob.type.includes(";") ?
        recorderAudioAsBlob.type.substr(0, recorderAudioAsBlob.type.indexOf(';')) : recorderAudioAsBlob.type;
-       this.audioElementSourceTarget.type = BlobType
+       this.audioElementTarget.type = BlobType
 
        //call the load method as it is used to update the audio element after changing the source or other settings
-       audioElement.load();
+       this.audioElementTarget.load();
 
         //play the audio after successfully setting new src and type that corresponds to the recorded audio
         console.log("Playing audio...");
