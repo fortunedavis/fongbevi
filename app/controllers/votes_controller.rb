@@ -26,26 +26,17 @@ class VotesController < AuthController
 
   # POST /votes or /votes.json
   def create
-      # vote_params.merge(user: current_user)
-     votes = Vote.all
-      
       @vote = Vote.new(vote_params)
 
       if @vote.save!
         clip = Clip.find(@vote.clip_id)
         clip.update(is_valid: @vote.is_valid,need_vote: false)
-        puts "done here"
+
         respond_to do |format|  
-        format.html { redirect_to vote_url(@vote), notice: "Vote was successfully created." }
-        #format.json { render :show, status: :created, location: @vote }
-        #alpha =  ClipSentence.create(clip_id: @vote.clip_id, sentence_id: @vote.clip.sentence_id)
-        #render json: {clip: votes}.to_json, status: :created
+        format.html { redirect_to votes_url(@vote), notice: "Vote was successfully created." }
         end
       else
         render :new 
-       # format.html { render :new, status: :unprocessable_entity }
-       # format.json { render json: @vote.errors, status: :unprocessable_entity }
-       #render json: @vote.errors ,status: :unprocessable_entity
       end
   end
 
@@ -84,10 +75,12 @@ class VotesController < AuthController
       #user_submitted_sentences_clips_for_other_users = Clip.find(current_user.sentences.pluck("id"))
       # 
       user_clips_validated = current_user.clips
+
       user_clips_created = current_user.records
+
       clips = Clip.where(need_vote: true).without(user_clips_validated).without(user_clips_created)
       #.without(user_submitted_sentences_clips_for_other_users)
-
+      
       random_offset = rand(clips.count)
       @clip = clips.offset(random_offset).first
     end

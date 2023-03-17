@@ -18,12 +18,10 @@ class Api::ClipsController < Api::AuthController
         
         sentence_id = @clip.sentence_id
         UserSentence.create(user: current_user, sentence_id: sentence_id)
-        Sentence.find(@clip.sentence_id).update(has_clip: true)
-       
+        Sentence.find(sentence_id).update(has_clip: true)
         #We need to set the sentence has_clip params to true if the clip is saved
-       
-        sentence = Sentence.find(sentence_id)
-        sentence.update(has_clip: true)
+        #sentence = Sentence.find(sentence_id)
+        #sentence.update(has_clip: true)
         format.json {render json:@clip, status: :ok}
       else
         format.json { render json: @clip.errors, status: :unprocessable_entity }

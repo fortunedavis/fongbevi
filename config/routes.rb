@@ -20,7 +20,9 @@ Rails.application.routes.draw do
         sessions: 'api/users/sessions',
         registrations: 'api/users/registrations',
       }
-      resources :clips ,except:[:edit, :update, :show, :destroy]
+      resources :clips ,except:[:edit, :show]
+      resources :votes ,except:[:edit, :show]
+      resources :home ,only:[:index]
   end
 
   #Admin

@@ -1,4 +1,4 @@
-class Admin::UsersController < ApplicationController
+class Admin::UsersController < AuthController
   layout "admin"
   def index
     #@items = params[:items] || 25
