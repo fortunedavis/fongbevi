@@ -10,6 +10,7 @@ class Api::Users::SessionsController < Devise::SessionsController
       #token = sign_user.jwt
       # render json: token.to_json
       #render json: { token: JsonWebToken.encode(user_id: user.id) }
+     #render json:{token: user.token}
      render json:{user: user}
     else
       render json: { errors: 'Identifiant invalid' }, status: :unprocessable_entity

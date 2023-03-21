@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :jwt_authenticatable,
          :registerable,
          jwt_revocation_strategy: JwtDenylist
+  #after_create :generate_token
   
   validates :email, presence: true
   validates :email, uniqueness: true
@@ -26,4 +27,12 @@ class User < ApplicationRecord
   end
   
  
+
+#  private
+
+#  def generate_token
+  #  self.token = JWT.encode({ user_id: id }, Rails.application.secrets.secret_key_base)
+  #  save
+ # end
+
 end

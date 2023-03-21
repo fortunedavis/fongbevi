@@ -2,8 +2,11 @@ class Api::ClipsController < Api::AuthController
   respond_to :json
 
   def index
-    @sentences = Sentence.where(has_clip: false)
-    render json: @sentences
+    sentences = Sentence.where(has_clip: false)
+    random_offset = rand(sentences.count)
+    @sentence = sentences.offset(random_offset).first
+
+    render json: @sentence
   end
 
 
