@@ -36,39 +36,40 @@
             <%end%>
         	</div>
 					<!-- Mobile menu button -->
-					<div class="md:hidden flex items-center">
-						<button class="outline-none mobile-menu-button">
-						<svg class=" w-6 h-6  hover:text-blue-500 "
-							x-show="!showMenu"
-							fill="none"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path d="M4 6h16M4 12h16M4 18h16"></path>
-						</svg>
-					</button>
+				<div class="pr-0 flex justify-end">
+					<div class="md:hidden flex relative inline-block float-right">
+							<button class="outline-none mobile-menu-button" data-toggle-target="btn" data-action="click->toggle#toggler">
+								<svg class=" w-6 h-6  hover:text-blue-500 "
+									x-show="!showMenu"
+									fill="none"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path d="M4 6h16M4 12h16M4 18h16"></path>
+								</svg>
+							</button>
 					</div>
 				</div>
 			</div>
 			<!-- mobile menu -->
-			<div class="hidden mobile-menu">
-				<ul class="">
-          <li><%= link_to new_clip_path,class: "block text-sm  px-2 py-2 hover:bg-blue-500 transition duration-300" do%>Enregistrement<i class="text-red-500 ml-2 fa-solid fa-microphone"></i><%end%></li>
+			<div class="hidden mobile-menu" data-toggle-target="menu">
+				<ul class="list-reset">
+          <li><%= link_to new_clip_path,class: "px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline" do%>Enregistrement<i class="text-red-500 ml-2 fa-solid fa-microphone"></i><%end%></li>
           <li>
-              <%= link_to new_vote_path,class: "block text-sm px-2 py-2 hover:bg-blue-500 transition duration-300" do%>Ecouter<i class="text-green-500 ml-2 fa-solid fa-play"></i><%end%>
+              <%= link_to new_vote_path,class: "px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline" do%>Ecouter<i class="text-green-500 ml-2 fa-solid fa-play"></i><%end%>
           </li>
-					<li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contactez-Nous</a></li>
+					<li><a href="#contact" class="px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline">Contactez-Nous</a></li>
 
           <div class=" md:flex items-center space-x-3 mb-5">
              <% if current_user %>
-               <%=link_to "/admin",class:"py-2 px-2 font-medium text-white rounded hover:bg-green-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
+               <%=link_to "/admin",class:"px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline" do%>Dashboard<%end%>
                
-               <%= button_to "Deconnexion", destroy_user_session_path, class:"py-2 px-2 font-medium text-green-500 rounded hover:bg-green-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
+               <%= button_to "Deconnexion", destroy_user_session_path, class:"py-2 px-auto block text-red-500 rounded hover:bg-green-500 hover:text-white", data: {turbo: "false"}, method: :delete %>
              <% else %>
-							<a href="/users/sign_in" class="py-2 px-2 font-medium rounded hover:bg-blue-500 hover:text-white transition duration-300" 
+							<a href="/users/sign_in" class="px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline" 
 							data-popover-target= "popover-default">
 								<i class="text-blue-500 fa-solid fa-right-from-bracket"></i>
 								Connexion
