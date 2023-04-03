@@ -1,9 +1,9 @@
 <div>
 <% @users.each  do |user|%>
   <p class="my-5">
-    <strong class="block font-medium mb-1">Email:</strong>
+    <strong class="block font-medium mb-1">User:</strong>
     <%= user.email%>
-    <%= link_to "editer",edit_admin_registration_path(user)%>
+    <%= link_to "editer",edit_user_registration_path(user)%>
     <%= link_to "destroy",destroy_session_path(user)%>
   </p>
  

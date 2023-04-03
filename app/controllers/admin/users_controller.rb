@@ -8,7 +8,5 @@ class Admin::UsersController < AuthController
   end
 
 
-  def my_account
-    @user = current_user
-  end  
+ 
 end

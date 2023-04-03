@@ -8,7 +8,8 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+
   }
 
 
@@ -28,17 +29,16 @@ Rails.application.routes.draw do
   #Admin
   namespace :admin  do
 
-   # devise_for :users,
-    #  controllers: {
-    #    sessions: 'users/sessions',
-    #    passwords: 'users/registrations',
-    #  }
+    devise_for :users,
+     controllers: {
+        registrations: 'admin/users/registrations',
+      }
     
     resources :sentences
     resources :clips 
     
     get "download_audio" =>"clips#download_audio"
-    resources :registrations
+    #resources :registrations
     get "utilisateurs" =>"users#index" 
     get "audiosvalidates" =>"clips#clipsvalidated"
     get "audiosrejetes" =>"clips#clipsrejected"

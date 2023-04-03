@@ -1,45 +1,12 @@
 class Admin::ClipsController < AuthController
   layout "admin"
   before_action :set_clip, only: %i[ show edit update destroy ]
-  require 'zip'
 
   # GET /admin/clips or /admin/clips.json
   def index
     @clips = Clip.all
-
-    respond_to do |format|
-      format.html
-      format.csv do
-        send_data generate_csv(@waves),
-                  filename: "waves-#{Date.today}.csv",
-                  type: 'text/csv; charset=utf-8',
-                  disposition: 'attachment'
-      end
-    end
   end
 
-
-def download_audio
-  
-  clip = Clip.first
-  audio_file = clip.audio
-  filename = "auido"
-
-  print audio_file
-
-
-  # Sanitize the filename to remove null bytes
-  #sanitized_filename = File.basename(filename.gsub("\0", ""), File.extname(filename))
-
-  # Construct the full path to the file using a trusted directory
-  #file_path = Rails.root.join('public', 'uploads', sanitized_filename)
-  
-  # Download the file to the user's browser
-  send_file audio_file.download, filename: "audio", type: audio_file.content_type
-end
-
-  
-  
   # GET /admin/clips/1 or /admin/clips/1.json
   def show
   end
