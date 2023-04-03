@@ -2,10 +2,13 @@ class Admin::SentencesController < AuthController
   protect_from_forgery with: :null_session
   layout "admin"
   before_action :set_sentence, only: %i[ show edit update destroy ]
-
+  include Pagy::Backend
+  
   # GET /sentences or /sentences.json
   def index
-    @sentences = Sentence.all
+     @items = params[:items] || 25
+     @sentences = Sentence.all
+     @pagy, @sentences= pagy(@sentences, items: @items)
   end
 
   # GET /sentences/1 or /sentences/1.json

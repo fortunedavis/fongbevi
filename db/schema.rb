@@ -87,7 +87,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_09_115312) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "fullname"
-    t.integer "age"
+    t.date "age"
     t.integer "sex"
     t.string "country"
     t.datetime "remember_created_at"

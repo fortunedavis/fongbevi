@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+  
   def current?(key, path)
     "#{key}" if current_page? path
   end
@@ -19,7 +21,7 @@ module ApplicationHelper
     text-gray-900 font-bold
      '
   end
-
+  
 
   def current_clip?(test_path)
     request.path == test_path ? "text-decoration-line: underline py-4 px-2 text-red-500 font-semibold hover:text-gray-100 transition duration-300" :
