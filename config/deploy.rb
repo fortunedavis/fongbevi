@@ -49,13 +49,3 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 set :keep_releases, 5
 
 
-desc "Run database migrations"
-  task :migrate do
-    on roles(:db) do
-      within release_path do
-        execute :bundle, :exec, :rake, "db:migrate"
-      end
-    end
-  end
-
-after :publishing, :migrate
