@@ -1,18 +1,15 @@
 <div id="<%= dom_id sentence %>">
   <p class="my-5">
-    <strong class="block font-medium mb-1">Content:</strong>
-    <%= sentence.content %>
+    <strong class="block font-medium mb-1">Fon:</strong>
+    <%= sentence.content_fon %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Is used:</strong>
-    <%= sentence.is_used %>
+    <strong class="block font-medium mb-1">Français:</strong>
+
+    <%= sentence.content_fr %>
   </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Clips count:</strong>
-    <%= sentence.clips_count %>
-  </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Has valid clips:</strong>
@@ -21,7 +18,6 @@
 
   <% if action_name != "show" %>
     <%= link_to "Show this sentence", admin_sentence_path(sentence), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this sentence', edit_admin_sentence_path(sentence), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
     <hr class="mt-6">
   <% end %>
 </div>

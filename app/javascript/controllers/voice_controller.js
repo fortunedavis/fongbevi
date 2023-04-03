@@ -1,9 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
-import { AudioContext } from 'web-audio-api';
+import { AudioContext } from 'web-audio-api'
 
 export default class extends Controller {
   static targets = ['audio'];
-  
+
   connect() {
     this.context = new AudioContext();
     this.mediaRecorder = null;
@@ -37,13 +37,5 @@ export default class extends Controller {
     this.mediaRecorder.stop();
     this.chunks = [];
   }
-
-
-
-  get audioTarget() {
-    return this.targets.find('audio');
-  }
-
-
 
 }

@@ -6,10 +6,9 @@
 
     <%= render @sentence %>
 
-    <%= link_to 'Edit this sentence', edit_admin_sentence_path(@sentence), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
-      <%= button_to 'Destroy this sentence', admin_sentence_path(@sentence), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      <%= button_to 'Destroy this sentence', admin_sentence_path(@sentence), method: :delete, class: "bg-red-200 mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>
-    <%= link_to 'Back to sentences', admin_sentences_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Back to sentences', admin_sentences_path, class: "bg-green-200 ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
 </div>

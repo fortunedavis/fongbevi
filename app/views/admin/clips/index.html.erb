@@ -28,9 +28,8 @@
 						<td><audio 
               controls
               data-recorder-target = "audio"
-              src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block">
-                  Your browser does not support the
-                  <code>audio</code> element.
+              src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block", type="audio/wav">
+                  
               </audio>
               <button data-action="recorder#download">Download</button>
             </td>
@@ -46,16 +45,3 @@
 
 		</div>
 </div>
-  <script>
-       console.log("connected")
-
-       alpha = document.getElementById('sheetjsexport')
-       console.log(alpha)
-       document.getElementById("sheetjsexport").addEventListener('click', function() {
-      /* Create worksheet from HTML DOM TABLE */
-      var wb = XLSX.utils.table_to_book(document.getElementById("example"));
-      /* Export to file (start a download) */
-      XLSX.writeFile(wb, "SheetJSTable.Date.xlsx");
-      });
-      	
-   </script>

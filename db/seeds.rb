@@ -10,7 +10,8 @@ user = User.create!(
   password: "adminadmin",
   fullname: "Super Admin",
   country: "Bénin",
-  role: 2
+  role: 2,
+  sex: 0
 )
 
 User.create!(
@@ -18,7 +19,8 @@ User.create!(
   password: "firstfirst",
   fullname: "Admin",
   country: "Bénin",
-  role: 2
+  role: 2,
+  sex: 0
 )
 
 Sentence.create!([

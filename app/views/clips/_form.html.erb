@@ -1,5 +1,5 @@
 
-<div >
+<div data-controller="recorder">
  <% if @sentence.present? %>
   <%= form_with(model: clip, class: "contents") do |form| %>
     <% if clip.errors.any? %>
@@ -29,18 +29,6 @@
 </div>
     </div>
    
-    <div data-controller="voice">
-      <a class="text-xl"
-        id="recordButton"
-        data-action="click->voice#startRecording"
-        >Record</a>
-      
-      <button  class="text-xl" 
-      data-action="click->voice#stopRecording" id="stopButton" disabled>Stop</button>
-      <audio id="audioPlayer"></audio>
-    </div>
-  
-
      <div class="flex items-center justify-center flex-wrap">
       
       <div class="form-group mb-6">
@@ -73,7 +61,7 @@
 
      <div class="container flex justify-center items-center">
       <button type="button" 
-        id="yesbutton" 
+        id="saved" 
         class="flex h-12 w-20 items-center justify-center rounded-full bg-black p-3 text-white shadow-lg hover:bg-green-200"
         data-action="recorder#saves">Valider 
       </button>

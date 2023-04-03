@@ -1,9 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
     var audioRecordStartTime;
-
     var maximumRecordingTimeInHours = 1;
-
     var elapsedTimeTimer;
     
 export default class extends Controller {
@@ -17,25 +15,11 @@ export default class extends Controller {
    ]
 
   connect() {
-    console.log("this one")
+    this.audioBlobs= []
+    this.mediaRecorder= null
+    this.streamBeingCaptured= null
   }
-  download() {
-    const audioData = this.audioTarget.src
-    console.log(audioData.src)
-    const blob = new Blob([audioData], { type: 'audio/wav' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-
-    link.href = url
-
-    link.download = 'audio.wav'
-    
-    document.body.appendChild(link)
-    
-    link.click()
-
-    document.body.removeChild(link)
-  }
+  
   
   saves(e){
         e.preventDefault()
@@ -43,8 +27,8 @@ export default class extends Controller {
         //Get the audio file from the user input field
         
         const audioFile = document.getElementById("clip_audio");
-
-        //const audioFile = document.querySelector('#audio-file-input').files[0];
+        // console.log(audioFile.files[0])
+        // const audioFile = document.querySelector('#audio-file-input').files[0];
         const formData = new FormData();
         const sentence_id = document.getElementById('clip_sentence_id')
         const user_id = document.getElementById('clip_user_id')
@@ -67,15 +51,12 @@ export default class extends Controller {
 
 
   audioRecorder = {
-     audioBlobs: [],
-     mediaRecorder: null,
-     streamBeingCaptured: null,
+    
     
      start: function () {
          //Feature Detection
          if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
-             //Feature is not supported in browser
-             //return a custom error
+             
              return Promise.reject(new Error('mediaDevices API or getUserMedia method is not supported in this browser.'));
          }
          else {
@@ -102,18 +83,14 @@ export default class extends Controller {
       },
 
       stop: function () {
-        console.log("file stop")
         //return a promise that would return the blob or URL of the recording
         return new Promise(resolve => {
             //save audio type to pass to set the Blob type
             let mimeType = this.mediaRecorder.mimeType;
 
-            //listen to the stop event in order to create & return a single Blob object
             this.mediaRecorder.addEventListener("stop", () => {
-                //create a single blob object, as we might have gathered a few Blob objects that needs to be joined as one
                 let audioBlob = new Blob(this.audioBlobs, { type: mimeType });
                 
-                //resolve promise with the single audio blob representing the recorded audio
                 resolve(audioBlob);
                 this.filetransfert(audioBlob);
             });
@@ -122,24 +99,24 @@ export default class extends Controller {
       },
 
     filetransfert: function(blob){
-      console.log("filetransfert")
       const clip_audio = document.getElementById("clip_audio");
-      const audioType = "audio/wav; codecs=opus";
+
+      const audioType = "audio/wav";
+
       let file = new File([blob], (Math.random() + 1).toString(36).substring(7), {
         type: audioType,
         lastModified: new Date().getTime(),
       });
+
       let container = new DataTransfer();
      
       container.items.add(file);
 
       clip_audio.files = container.files;
-      console.log("ok file")
-      console.log("ok",clip_audio)
     },
+
     cancel: function() {
       //stop the recording feature
-      console.log("canceling")
       this.mediaRecorder.stop();
 
       //stop all the tracks on the active stream in order to stop the stream
@@ -147,7 +124,6 @@ export default class extends Controller {
 
       //reset API properties for next recording
       this.resetRecordingProperties();
-      console.log("canceled")
 
     },
 

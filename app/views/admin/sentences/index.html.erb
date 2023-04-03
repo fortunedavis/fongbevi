@@ -12,35 +12,38 @@
 		
 
 
-		<!--Card-->
-		<div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
-				<thead>
-					<tr>
-						<th data-priority="1">Corpus</th>
-						<th data-priority="2">Status[]</th>
-						<th data-priority="3">A un clip</th>
-						<th data-priority="4">Clip Validé</th>
-						<th data-priority="6">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
+<div id="recipients" class="p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+  <div class="overflow-x-auto">
+    <table id="example" class="table-auto w-full">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="py-2 px-4 text-left">Corpus</th>
+          <th class="py-2 px-4 text-left">Status</th>
+          <th class="py-2 px-4 text-left">A un clip</th>
+          <th class="py-2 px-4 text-left">Clip Validé</th>
+          <th class="py-2 px-4 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
         <% @sentences.each do |sentence| %>
-					<tr>
-						<td><%= sentence.content %></td>
-						<td><%= sentence.status %></td>
-						<td><%= sentence.has_clip %></td>
-						<td><%= sentence.has_valid_clips %></td>
-						<td> <%= link_to "Show", admin_sentence_path(sentence), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-							<%= link_to 'Edit', edit_admin_sentence_path(sentence), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-						</td>
-					</tr>
-        <%end%>
-				</tbody>
+          <tr class="hover:bg-gray-50">
+            <td class="py-3 px-4 border"><%=sentence.content_fon %>  }}</td>
+            <td class="py-3 px-4 border"><%= sentence.status %></td>
+            <td class="py-3 px-4 border"><%= sentence.has_clip %></td>
+            <td class="py-3 px-4 border"><%= sentence.has_valid_clips %></td>
+            <td class="py-3 px-4 border">
+              <%= link_to "Show", admin_sentence_path(sentence), class: "bg-gray-200 hover:bg-gray-300 rounded-lg px-4 block py-2 text-sm font-medium" %>
+              <%= link_to 'Edit', edit_admin_sentence_path(sentence), class: "bg-gray-200 hover:bg-gray-300 rounded-lg block mt-1 pt-2 px-4 py-2 text-sm font-medium ml-2" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-			</table>
 
-		</div>
+
 		<!--/Card-->
 
 
