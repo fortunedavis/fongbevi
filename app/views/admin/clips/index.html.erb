@@ -1,4 +1,4 @@
-<div class="w-full">
+<div class="w-full" data-controller="recorder">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
@@ -8,10 +8,8 @@
     <%= link_to 'Audios Validés',  admin_audiosvalidates_path, class: "m-2 rounded-lg py-3 px-5 bg-green-500 text-white block font-medium" %>
     <%= link_to 'Audios rejetés', admin_audiosrejetes_path, class: "m-2 rounded-lg py-3 px-5 bg-red-400 text-white block font-medium" %>
     <%= link_to 'Audios non écoutés', admin_audios_sans_vote_path, class: "m-2 rounded-lg py-3 px-5 bg-blue-500 text-white block font-medium" %>
-    <%= link_to "csv",admin_clips_path(format: :csv),class: "m-2 rounded-lg py-3 px-5 bg-blue-500 text-white block font-medium" %>
-    <button id="sheetjsexport"><b>Export as XLSX</b></button>
+    <%= link_to 'Download Audios', admin_download_audio_path %>
   </div>
-
 
   <div id='clips' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
 			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
@@ -26,13 +24,15 @@
 				<tbody>
         <%@clips.each do |clip|%>
 					<tr>
-						<td><%= clip.sentence.content %></td>
+						<td><%= clip.sentence.content_fr %></td>
 						<td><audio 
               controls
+              data-recorder-target = "audio"
               src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block">
                   Your browser does not support the
                   <code>audio</code> element.
               </audio>
+              <button data-action="recorder#download">Download</button>
             </td>
             <td></td>
 						<td> 

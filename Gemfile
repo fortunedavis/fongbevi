@@ -26,7 +26,7 @@ gem "stimulus-rails"
 
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails"
-
+gem 'wavefile'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
@@ -34,6 +34,7 @@ gem "jbuilder"
 gem "redis", "~> 4.0"
 
 gem "sidekiq"
+gem "pry"
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 gem 'chartkick'

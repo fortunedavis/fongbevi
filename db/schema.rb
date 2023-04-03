@@ -65,10 +65,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_09_115312) do
   end
 
   create_table "sentences", force: :cascade do |t|
-    t.string "content"
+    t.string "content_fr"
+    t.string "content_fon"
     t.boolean "has_clip", default: false
     t.boolean "has_valid_clips", default: false
-    t.string "slug"
     t.integer "status"
     t.bigint "user_id"
     t.datetime "created_at", null: false

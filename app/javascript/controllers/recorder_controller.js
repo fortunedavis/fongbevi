@@ -1,40 +1,69 @@
 import { Controller } from "@hotwired/stimulus"
 
-    var elapsedTimeTag = document.getElementsByClassName("elapsed-time")[0];
-
-    var audioElement = document.getElementsByClassName("audio-element")[0];
-   
-    var textIndicatorOfAudiPlaying = document.getElementsByClassName("text-indication-of-audio-playing")[0];
-
     var audioRecordStartTime;
 
     var maximumRecordingTimeInHours = 1;
 
     var elapsedTimeTimer;
     
-
-// Connects to data-controller="recorder"
 export default class extends Controller {
   static targets = [ 
     "audioElementSource",
     "microphoneButton",
     "recordingControlButtonsContainer",
     "audioElement",
-    "elapsedTime"
+    "elapsedTime",
+    "audio"
    ]
 
   connect() {
     console.log("this one")
   }
+  download() {
+    const audioData = this.audioTarget.src
+    console.log(audioData.src)
+    const blob = new Blob([audioData], { type: 'audio/wav' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
 
- //this.microphoneButtonTarget.onclick = this.startAudioRecording();
- //stopRecordingButton.onclick = this.stopAudioRecording();
- //Listen to cancel recording button
- // cancelRecordingButton.onclick = this.cancelAudioRecording(); 
- //Listen to when the ok button is clicked in the browser not supporting audio recording box
- //closeBrowserNotSupportedBoxButton.onclick = this.hideBrowserNotSupportedOverlay();
- //Listen to when the audio being played ends
- //audioElement.onended = this.hideTextIndicatorOfAudioPlaying();
+    link.href = url
+
+    link.download = 'audio.wav'
+    
+    document.body.appendChild(link)
+    
+    link.click()
+
+    document.body.removeChild(link)
+  }
+  
+  saves(e){
+        e.preventDefault()
+
+        //Get the audio file from the user input field
+        
+        const audioFile = document.getElementById("clip_audio");
+
+        //const audioFile = document.querySelector('#audio-file-input').files[0];
+        const formData = new FormData();
+        const sentence_id = document.getElementById('clip_sentence_id')
+        const user_id = document.getElementById('clip_user_id')
+
+        formData.append('clip[audio]', audioFile.files[0]);
+        formData.append('clip[sentence_id]', sentence_id.value)
+        formData.append('clip[user_id]', user_id.value)
+       
+        fetch('http://localhost:3000/clips',{
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          console.log('File saved successfully!');
+        }).catch(error => {
+          console.error('Error saving file:', error);
+        });
+        location.reload();
+  }
 
 
   audioRecorder = {
@@ -73,6 +102,7 @@ export default class extends Controller {
       },
 
       stop: function () {
+        console.log("file stop")
         //return a promise that would return the blob or URL of the recording
         return new Promise(resolve => {
             //save audio type to pass to set the Blob type
@@ -95,13 +125,17 @@ export default class extends Controller {
       console.log("filetransfert")
       const clip_audio = document.getElementById("clip_audio");
       const audioType = "audio/wav; codecs=opus";
-      let file = new File([blob], (Math.random() + 1).toString(36).substring(7)+".wav", {
+      let file = new File([blob], (Math.random() + 1).toString(36).substring(7), {
         type: audioType,
         lastModified: new Date().getTime(),
       });
       let container = new DataTransfer();
+     
       container.items.add(file);
+
       clip_audio.files = container.files;
+      console.log("ok file")
+      console.log("ok",clip_audio)
     },
     cancel: function() {
       //stop the recording feature
@@ -167,19 +201,12 @@ export default class extends Controller {
 
   createSourceForAudioElement() {
     let sourceElement = document.createElement("source");
-    audioElement.appendChild(sourceElement);
+    this.audioElementTarget.appendChild(sourceElement);
 
     this.audioElementTarget = sourceElement;
   }
 
-  displayTextIndicatorOfAudioPlaying() {
-    textIndicatorOfAudiPlaying.classList.remove("hidden");
-  }
-
-  hideTextIndicatorOfAudioPlaying() {
-    textIndicatorOfAudiPlaying.classList.add("hidden");
-  }
-
+  
   startAudioRecording(){
 
     console.log("Recording Audio...");
@@ -196,11 +223,9 @@ export default class extends Controller {
     this.audioRecorder.start()
       .then(() => { //on success
           //store the recording start time to display the elapsed time according to it
-          console.log("true working")
           audioRecordStartTime = new Date();
           //display control buttons to offer the functionality of stop and cancel
           this.handleDisplayingRecordingControlButtons();
-          console.log("true working 2")
       })  
       .catch(error => { //on error
         //No Browser Support Error

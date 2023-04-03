@@ -3,13 +3,13 @@
 	<div class="container pt-24 md:pt-5 px-6 mx-auto flex flex-wrap flex-col md:flex-row items-center">
 		
 		<div class="w-full xl:w-3/5 overflow-y-hidden">
-       <%= image_tag "amazone.jpg", class:"w-5/6 lg:mr-0 slide-in-bottom" %>
+       <%= image_tag "amazone.jpg", class:" object-cover" %>
 		</div>
 		
 		<div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
 			<h1 class="my-4 text-2xl md:text-5xl text-gray-800 font-bold leading-tight text-center md:text-left slide-in-bottom-h1">Fongbevi App</h1>
-			<p class="leading-normal text-base md:text-xl mb-8 text-center md:text-left slide-in-bottom-subtitle">Ce projet est une initiative de collecte de voix afin d'apprendre aux machines à comprendre la langue Fongbè</p>
-			<p class="leading-normal text-base md:text-xl mb-8 text-center md:text-left slide-in-bottom-subtitle">Vous pouvez participer directement au projet sur ce site <span class="text-blue-400 font-bold"><%=link_to "en donnant votre Voix", new_clip_path%></span> ou en <span class="text-blue-400 font-bold"><%=link_to  "Notant autrui",new_vote_path%></span> pour nous aider à valider les enrégistrements</p>
+			<p class="leading-normal text-base md:text-xl mb-8 text-center md:text-left slide-in-bottom-subtitle">Est une initiative de collecte de voix afin d'apprendre aux machines à comprendre la langue Fongbe</p>
+			<p class="leading-normal text-base md:text-xl mb-8 text-center md:text-left slide-in-bottom-subtitle">Vous pouvez participer directement au projet sur ce site <span class="text-blue-400 font-bold"><%=link_to "en participant aux enrégistrements", new_clip_path%></span> ou en <span class="text-blue-400 font-bold"><%=link_to  "évaluant la contribution des autres",new_vote_path%></span> afin d'aider à la validation du corpus.</p>
 		
 			<p class="text-blue-400 font-bold pb-8 lg:pb-6 text-center md:text-left fade-in">Download our app:</p>
 			<div class="flex w-full justify-center md:justify-start pb-5 lg:pb-0 fade-in">

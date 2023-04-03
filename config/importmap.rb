@@ -11,3 +11,4 @@ pin "@rails/activestorage", to:"activestorage.esm.js"
 
 pin "chartkick", to: "chartkick.js"
 pin "Chart.bundle", to: "Chart.bundle.js"
+pin "recordjs", to: "https://ga.jspm.io/npm:recordjs@0.0.3/index.js"

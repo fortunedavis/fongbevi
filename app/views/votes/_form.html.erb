@@ -19,7 +19,7 @@
     <p>La phrase associée a t'elle éte bien prononcée?</p>
   </div>
   <div class="mt-10 flex h-80 w-1/2 items-center justify-center border-solid bg-blue-200 p-10 shadow-lg">
-    <p class=""><%=@clip.sentence.content%></p>
+    <p class=""><%=@clip.sentence.content_fon%></p>
   </div>
 
   <div class="mt-4">
@@ -75,12 +75,12 @@
 
   </div>
   <div class="mt-4 flex items-center justify-center space-x-10 mb-10">
-    <button class="flex h-12 w-20 items-center justify-between rounded-full  p-3 shadow-lg hover:bg-blue" data-action="vote#downvote"><i class="fa-solid fa-forward"></i>Skip</button>
+    <button class="flex h-12 w-20 items-center justify-between rounded-full  p-3 shadow-lg hover:bg-blue"><i class="fa-solid fa-forward"></i>Skip</button>
    </div>
 </form>
  <%else%>   
     Bravo!!!  vous venez de terminer l'expérience. L'équipe vous contactera pour 
-    cette prouesse 
+    cette prouesse. Veuillez  mettre à jour votre profil
  <%end%>
 </div>
  

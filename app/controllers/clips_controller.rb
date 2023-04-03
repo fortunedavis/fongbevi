@@ -1,6 +1,7 @@
 class ClipsController < AuthController
-  wrap_parameters format: []
-  rescue_from ActionController::UnpermittedParameters, with: :render_unpermitted_params_response
+  protect_from_forgery with: :null_session
+  #wrap_parameters format: []
+  #rescue_from ActionController::UnpermittedParameters, with: :render_unpermitted_params_response
 
   before_action :set_clip, only: %i[ show edit update destroy ]
 
@@ -36,15 +37,25 @@ class ClipsController < AuthController
 
   # POST /clips or /clips.json
   def create
-    @clip = Clip.new(clip_params.merge({ user: current_user }))
+    #puts clip_params["user_id"]
+    user = User.find(clip_params["user_id"])
+
+    @clip = Clip.new(clip_params.merge({ user: user }))
+
     respond_to do |format|
+      
       if @clip.save!
+
         sentence_id = @clip.sentence_id
+
         UserSentence.create(user: current_user, sentence_id: sentence_id)
         Sentence.find(@clip.sentence_id).update(has_clip: true)
+       
         # We need to set the sentence has_clip params to true if the clip is saved
+       
         sentence = Sentence.find(sentence_id)
         sentence.update(has_clip: true)
+        
         format.html { redirect_to new_clip_url , notice: "Clip was successfully updated."}
         format.json {:ok}
       else
@@ -52,6 +63,7 @@ class ClipsController < AuthController
         format.json { render json: @clip.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PATCH/PUT /clips/1 or /clips/1.json

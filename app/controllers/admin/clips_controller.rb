@@ -1,6 +1,7 @@
-class Admin::ClipsController < ApplicationController
+class Admin::ClipsController < AuthController
   layout "admin"
   before_action :set_clip, only: %i[ show edit update destroy ]
+  require 'zip'
 
   # GET /admin/clips or /admin/clips.json
   def index
@@ -17,16 +18,27 @@ class Admin::ClipsController < ApplicationController
     end
   end
 
-  def download_wav
-    wave = Clip.all
 
-    send_data wave.audio_blob.download,
-              filename: "#{wave.id}.wav",
-              type: 'audio/wav',
-              disposition: 'attachment'
-  end
+def download_audio
+  
+  clip = Clip.first
+  audio_file = clip.audio
+  filename = "auido"
+
+  print audio_file
 
 
+  # Sanitize the filename to remove null bytes
+  #sanitized_filename = File.basename(filename.gsub("\0", ""), File.extname(filename))
+
+  # Construct the full path to the file using a trusted directory
+  #file_path = Rails.root.join('public', 'uploads', sanitized_filename)
+  
+  # Download the file to the user's browser
+  send_file audio_file.download, filename: "audio", type: audio_file.content_type
+end
+
+  
   
   # GET /admin/clips/1 or /admin/clips/1.json
   def show
