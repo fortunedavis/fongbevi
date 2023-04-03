@@ -78,6 +78,7 @@ group :test do
 end
 
 
+gem 'zip'
 gem 'devise'
 gem 'devise-jwt'
 
