@@ -84,7 +84,7 @@ test:
 production:
   <<: *default
   database: fongbevi_production
-  username: fongbevi
+  username: deploy
   password: <%= ENV["FONGBEVI_DATABASE_PASSWORD"] %>
  # password: root
 
