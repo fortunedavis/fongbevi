@@ -1,68 +1,56 @@
+<div id="recorder-container" data-controller="recorder">
+  <% if @sentence.present? %>
+    <%= form_with(model: clip, class: "contents") do |form| %>
+      <% if clip.errors.any? %>
+        <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+          <h2><%= pluralize(clip.errors.count, "error") %> prohibited this clip from being saved:</h2>
+          <ul>
+            <% clip.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="flex container items-center justify-center pt-2">
+        <p class='text-slate-500 px-5 mt-5'> Click Veuillez prononcer à haute voix la traduction en Fongbe</p>
+      </div>  
 
-<div data-controller="recorder">
- <% if @sentence.present? %>
-  <%= form_with(model: clip, class: "contents") do |form| %>
-    <% if clip.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(clip.errors.count, "error") %> prohibited this clip from being saved:</h2>
-
-      <ul>
-        <% clip.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-    <div class="flex container items-center justify-center">
-      <span class="mr-1">Click</span>
-      <p class='text-slate-500'>Veuillez prononcer à hautre voix la traduction en Fongbe</p>
-    </div>     
     <div class="animate__animated animate__bounceInLeft ">
-      <div class="animate__rubberBand relative form-group mb-6 mt-10 flex h-80 w-full items-center justify-center border-solid bg-white-100 p-10 shadow-lg text-slate-600">
-  <button class="text-xl absolute bottom-1 left-1 bg-black rounded-full hover:bg-green-500 px-4 py-2 shadow-lg">Skip >></button>
-  <div class="flex flex-col items-center justify-center w-full">
-    <p class="text-xl font-bold mb-4 p-4"><%= @sentence.content_fr if @sentence.present? %></p>
-    <div class="bg-blue-100 rounded-lg shadow-lg p-4">
-      <p class="text-xl text-center"><%= @sentence.content_fon if @sentence.present? %></p>
+  <div class="animate__rubberBand relative form-group mb-6 mt-5 flex h-80 w-full items-center justify-center border-solid bg-white-100 p-10 shadow-lg text-slate-600">
+    <button class="text-sm absolute bottom-1 left-1 bg-black rounded-full hover:bg-green-500 px-4 py-2 shadow-lg sm:text-sm">>></button>
+    <div class="flex flex-col items-center justify-center w-full">
+      <p class="text-sm font-bold mb-4 p-4 "><%= @sentence.content_fr if @sentence.present? %></p>
+      <div class="bg-blue-100 rounded-lg shadow-lg p-4">
+        <p class="text-l text-center sm:text-sm mb-5"><%= @sentence.content_fon if @sentence.present? %></p>
+      </div>
     </div>
   </div>
 </div>
-    </div>
-   
-     <div class="flex items-center justify-center flex-wrap">
-      
-      <div class="form-group mb-6">
-          
-          <audio controls class="audio-element hide" data-recorder-target="audioElement">
-          </audio>
-        </div>
-        
+      <div class="flex items-center justify-center flex-wrap container flex justify-center items-center">
         <div class="form-group mb-6">
-              <i class="start-recording-button
-              text-5xl text-red-500
-              cursor-pointer
-              mr-5
-              fa fa-microphone"
-              aria-hidden="true" 
-              data-action="click->recorder#startAudioRecording"
-              data-recorder-target="microphoneButton">
-              </i>
-
-              <div class="recording-contorl-buttons-container hidden flex" data-recorder-target="recordingControlButtonsContainer">
-                <i class="cancel-recording-button text-5xl text-red-500 fa-solid fa-circle-xmark hover:text-red-300" aria-hidden="true" data-action="click->recorder#cancelAudioRecording"></i>
-                  <p  class="elapsed-time text-5xl" data-recorder-target="elapsedTime">----<p>
-                <i class="stop-recording-button text-5xl text-green-500 mr-5 fa-solid fa-circle-stop hover:text-green-300" aria-hidden="true" data-action="click->recorder#stopAudioRecording"></i>
-              </div>
+          <audio controls class="block hide" data-recorder-target="audioElement"></audio>
         </div>
-        
-         
-    </div>
-    
-
-     <div class="container flex justify-center items-center">
-      <button type="button" 
-        id="saved" 
-        class="flex h-12 w-20 items-center justify-center rounded-full bg-black p-3 text-white shadow-lg hover:bg-green-200"
+        <div class="form-group mb-6 block container flex justify-center items-center">
+          <i class="start-recording-button
+            text-5xl text-red-500
+            cursor-pointer
+            mr-5
+            fa fa-microphone"
+            aria-hidden="true" 
+            data-action="click->recorder#startAudioRecording"
+            data-recorder-target="microphoneButton">
+          </i>
+          <div class="recording-contorl-buttons-container hidden flex" data-recorder-target="recordingControlButtonsContainer">
+            <i class="cancel-recording-button text-5xl text-red-500 fa-solid fa-circle-xmark hover:text-red-300" aria-hidden="true" data-action="click->recorder#cancelAudioRecording"></i>
+            <p  class="elapsed-time text-5xl" data-recorder-target="elapsedTime">----</p>
+            <i class="stop-recording-button text-5xl text-green-500 mr-5 fa-solid fa-circle-stop hover:text-green-300" aria-hidden="true" data-action="click->recorder#stopAudioRecording"></i>
+          </div>
+        </div>
+      </div> 
+      <div class="container flex justify-center items-center">
+        <button type="button" 
+          id="saved" 
+          class="flex h-12 w-20 items-center justify-center  rounded-full bg-black p-3 text-white shadow-lg hover:bg-green-200"
         data-action="recorder#saves">Valider 
       </button>
 

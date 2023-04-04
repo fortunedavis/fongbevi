@@ -18,6 +18,7 @@ export default class extends Controller {
     this.audioBlobs= []
     this.mediaRecorder= null
     this.streamBeingCaptured= null
+    
   }
   
   
@@ -101,9 +102,11 @@ export default class extends Controller {
     filetransfert: function(blob){
       const clip_audio = document.getElementById("clip_audio");
 
+      const sentence_number = document.getElementById('clip_sentence_id').value+1
+      console.log(sentence_number)
       const audioType = "audio/wav";
 
-      let file = new File([blob], (Math.random() + 1).toString(36).substring(7), {
+      let file = new File([blob], sentence_number, {
         type: audioType,
         lastModified: new Date().getTime(),
       });
