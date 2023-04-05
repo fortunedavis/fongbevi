@@ -21,15 +21,15 @@
 	<p class="flex flex-col items-center justify-center pb-4 mb-4"> Liste des meilleurs participants</p>
 
   <% @users.each do |user| %>
-		<%if user.clips.count()>1%>
-    <div class="border-b border-gray-300 mb-4 pb-4">
+		<%if user.records.count()>1%>
+    <div class="border-t border-gray-300 mb-4 pt-2 pb-4">
       <div class="flex flex-col items-center justify-center">
         <div class="flex justify-center space-x-4">
-				   <h2 class="text-xl font-bold mb-2"><%= user.fullname %> </h2>
+				   <h2 class="text-xl mb-2"><%= user.fullname.present? ? user.fullname : user.email %> </h2>
         </div>
       </div>
-		<% end %>	
     </div>
+		<% end %>	
   <% end %>
 </div>
 
