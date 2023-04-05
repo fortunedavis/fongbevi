@@ -1,4 +1,4 @@
-<nav class=" shadow-lg" data-controller="toggle">
+<nav class="shadow-lg" data-controller="toggle">
 			<div class="max-w-6xl mx-auto px-4">
 				<div class="flex justify-between">
 					<div class="flex space-x-7">
@@ -12,14 +12,14 @@
 							</a>
 						</div>
 						<!-- Primary Navbar items -->
-						<div class="hidden md:flex items-center space-x-1">
+						<div class="hidden md:flex lg:flex xl:flex items-center space-x-1">
               <%= link_to new_clip_path,:class=>current_clip?(new_clip_path) do%>Enregistrement<i class="ml-2 fa-solid fa-microphone"></i><%end%>
 							|
 						  <%= link_to new_vote_path, :class => current_voice?(new_vote_path) do%>Ecouter<i class="ml-2 fa-solid fa-play"></i><%end%>
 						</div>
 					</div>
 					<!-- Secondary Navbar items -->
-					<div class="hidden md:flex items-center space-x-3 ">
+					<div class="hidden md:flex lg:flex xl:flex items-center space-x-3 ">
             	<a href="" class="py-4 px-2 text-blue font-semibold hover:text-blue-500 transition duration-300">Contactez-nous</a>
              <% if current_user %>
                <%=link_to "/admin",class:"py-2 px-2 font-medium text-blue-500 text-white rounded hover:bg-blue-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
@@ -37,7 +37,7 @@
         	</div>
 					<!-- Mobile menu button -->
 				<div class="pr-0 flex justify-end">
-					<div class="md:hidden flex relative inline-block float-right">
+					<div class="xl:hidden lg:hidden md:hidden flex relative inline-block float-right">
 							<button class="outline-none mobile-menu-button" data-toggle-target="btn" data-action="click->toggle#toggler">
 								<svg class=" w-6 h-6  hover:text-blue-500 "
 									x-show="!showMenu"

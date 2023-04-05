@@ -1,16 +1,19 @@
-<div class="flex flex-wrap  mx-auto">
-  <div class="mx-auto">
-    <%= image_tag "amazone.jpg", class:"object-cover w-full" %>
-  </div>
-  <div class="pt-5 ml-5" >
-    <h1 class="text-3xl md:text-5xl font-bold leading-tight text-gray-800 mb-8 md:mb-10">Fongbevi</h1>
-    <p class="text-l md:text-xl leading-normal mb-8 md:mb-10">
-      Fongbevi est une initiative de collecte de voix afin d'apprendre aux machines à comprendre la langue Fongbe. Vous pouvez participer directement au projet sur ce site en participant aux enregistrements ou en évaluant la contribution des autres afin d'aider à la validation du corpus.
-    </p>
-    <div class="flex justify-center md:justify-start">
-      <span class="inline-block bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full font-semibold text-sm md:text-base mr-2 md:mr-4 mb-2 md:mb-0"><%= link_to "Participer aux enregistrements", new_clip_path %></span>
-      <span class="inline-block bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-full font-semibold text-sm md:text-base"><%= link_to "Évaluer la contribution des autres", new_vote_path %></span>
-    </div>
-  </div>
-</div>
 
+<div class="container px-5 py-5 mx-auto flex flex-wrap">
+     <div class="p-4 lg:w-1/2 xl:w-1/2">
+       <div class="relative">
+         <%= image_tag "amazone.jpg", class:"object-cover w-full" %>
+       </div>
+     </div>
+     <div class="p-4 lg:w-1/2 xl:w-1/2">
+       <div class="relative pt-8">
+          <h2 class="text-xl mb-1">Fongbevi</h2>
+          <p class="mb-3">Fongbevi est une initiative de collecte de voix afin d'apprendre aux machines à comprendre la langue Fongbe. Vous pouvez participer directement au projet sur ce site en participant aux enregistrements ou en évaluant la contribution des autres afin d'aider à la validation du corpus.
+          </p>
+          <div class="flex justify-center md:justify-start">
+          <span class="inline-block bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full font-semibold text-sm md:text-base mr-2 md:mr-4 mb-2 md:mb-0"><%= link_to "Participer aux enregistrements", new_clip_path %></span>
+          <span class="inline-block bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-full font-semibold text-sm md:text-base"><%= link_to "Évaluer la contribution des autres", new_vote_path %></span>
+        </div>
+      </div>
+     </div>
+</div>
