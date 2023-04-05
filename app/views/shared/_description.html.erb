@@ -18,9 +18,10 @@
 </div>
 
 <div class="p-4 sm:p-6 md:p-8 bg-gray-100">
+	<p class="flex flex-col items-center justify-center pb-4 mb-4"> Liste des meilleurs participants</p>
+
   <% @users.each do |user| %>
     <div class="border-b border-gray-300 mb-4 pb-4">
-				<p class="flex flex-col items-center justify-center pb-4 mb-4"> Liste des meilleurs participants</p>
 
 		<%if user.clips.count()>1%>
       <div class="flex flex-col items-center justify-center">
