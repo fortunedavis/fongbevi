@@ -37,8 +37,10 @@ export default class extends Controller {
         formData.append('clip[audio]', audioFile.files[0]);
         formData.append('clip[sentence_id]', sentence_id.value)
         formData.append('clip[user_id]', user_id.value)
-       
-        fetch('http://localhost:3000/clips',{
+
+       // https://fongbevi.com/clips/new
+
+        fetch('/clips',{
           method: 'POST',
           body: formData
         })
