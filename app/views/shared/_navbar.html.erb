@@ -22,17 +22,18 @@
 					<div class="hidden md:flex lg:flex xl:flex items-center space-x-3 ">
             	<a href="" class="py-4 px-2 text-blue font-semibold hover:text-blue-500 transition duration-300">Contactez-nous</a>
              <% if current_user %>
-               <%=link_to "/admin",class:"py-2 px-2 font-medium text-blue-500 text-white rounded hover:bg-blue-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
-               <%= button_to "Deconnexion", destroy_user_session_path, class:"py-2 px-2 text-blue-500 text-gray-700 font-medium text-blue-200 rounded hover:bg-blue-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
+								<% if current_user.admin? or current_user.superadmin? %>
+								<%=link_to "/admin",class:"py-2 px-2 font-medium text-blue-500 text-white rounded hover:bg-blue-500 hover:text-white transition duration-300" do%>Dashboard<%end%>
+								<%else%>
+								  <%=link_to "/users/edit",class:"py-2 px-2 font-medium text-blue-500 text-white rounded hover:bg-blue-500 hover:text-white transition duration-300" do%>Modifier Info<%end%>
+								<%end%>
+							  <%= button_to "Deconnexion", destroy_user_session_path, class:"py-2 px-2 text-blue-500 text-gray-700 font-medium text-blue-200 rounded hover:bg-blue-500 hover:text-white transition duration-300", data: {turbo: "false"}, method: :delete %>
              <% else %>
-            
-
 							<a href="/users/sign_in" class="py-2 px-2 font-medium rounded hover:bg-blue-500 hover:text-white transition duration-300" 
-							>
+>
 								<i class="fa-solid fa-right-from-bracket"></i>
 								Connexion
 							</a>
-							
             <%end%>
         	</div>
 					<!-- Mobile menu button -->
@@ -65,8 +66,12 @@
 
           <div class=" md:flex items-center space-x-3 mb-5">
              <% if current_user %>
-               <%=link_to "/admin",class:"px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline" do%>Dashboard<%end%>
-               
+						   <% if current_user.admin? or current_user.superadmin? %>
+               		<%=link_to "/admin",class:"px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline" do%>Dashboard<%end%>
+               <%else%>
+               		<%=link_to "/users/edit",class:"px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline" do%>Modifier Info<%end%>
+							 <%end%>
+
                <%= button_to "Deconnexion", destroy_user_session_path, class:"py-2 px-auto block text-red-500 rounded hover:bg-green-500 hover:text-white", data: {turbo: "false"}, method: :delete %>
              <% else %>
 							<a href="/users/sign_in" class="px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline" 

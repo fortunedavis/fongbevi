@@ -18,9 +18,16 @@
     <span class="mr-1">Click</span>
     <p>La phrase associée a t'elle éte bien prononcée?</p>
   </div>
-  <div class="mt-10 flex h-80 w-1/2 items-center justify-center border-solid bg-blue-200 p-10 shadow-lg">
-    <p class=""><%=@clip.sentence.content_fon%></p>
+ 
+<div class="animate__animated animate__bounceInLeft ">
+  <div class="pb-5">
+    <div class="flex flex-col items-center justify-center w-full">
+      <div class="bg-blue-100 rounded-lg shadow-lg p-4">
+        <p class="text-l text-center sm:text-sm mb-5"><%= @clip.sentence.content_fon if @clip.sentence.content_fon.present? %></p>
+      </div>
+    </div>
   </div>
+</div>
 
   <div class="mt-4">
    <audio id="myAudio" controls="true" width="100%" preload="metadata">
