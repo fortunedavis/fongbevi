@@ -65,7 +65,7 @@ class Admin::ClipsController < AuthController
   # DELETE /admin/clips/1 or /admin/clips/1.json
   # DELETE /clips/1 or /clips/1.json
   def destroy
-    @clip.update(has_clip: false)
+    @clip.sentence.update(has_clip: false)
     @clip.destroy
     puts "destroyed clips"
     respond_to do |format|
