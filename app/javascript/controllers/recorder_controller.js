@@ -1,116 +1,110 @@
-import {
-  Controller
-} from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus"
 
-var audioRecordStartTime;
-var maximumRecordingTimeInHours = 1;
-var elapsedTimeTimer;
-
+    var audioRecordStartTime;
+    var maximumRecordingTimeInHours = 1;
+    var elapsedTimeTimer;
+    
 export default class extends Controller {
-  static targets = [
+  static targets = [ 
     "audioElementSource",
     "microphoneButton",
     "recordingControlButtonsContainer",
     "audioElement",
     "elapsedTime",
     "audio"
-  ]
+   ]
 
   connect() {
-    this.audioBlobs = []
-    this.mediaRecorder = null
-    this.streamBeingCaptured = null
-
+    this.audioBlobs= []
+    this.mediaRecorder= null
+    this.streamBeingCaptured= null
+    
   }
+  
+  
+  saves(e){
+        e.preventDefault()
 
+        //Get the audio file from the user input field
+        
+        const audioFile = document.getElementById("clip_audio");
+        // console.log(audioFile.files[0])
+        // const audioFile = document.querySelector('#audio-file-input').files[0];
+        const formData = new FormData();
+        const sentence_id = document.getElementById('clip_sentence_id')
+        const user_id = document.getElementById('clip_user_id')
 
-  saves(e) {
-    e.preventDefault()
+        formData.append('clip[audio]', audioFile.files[0]);
+        formData.append('clip[sentence_id]', sentence_id.value)
+        formData.append('clip[user_id]', user_id.value)
 
-    //Get the audio file from the user input field
+       // https://fongbevi.com/clips/new
 
-    const audioFile = document.getElementById("clip_audio");
-    // console.log(audioFile.files[0])
-    // const audioFile = document.querySelector('#audio-file-input').files[0];
-    const formData = new FormData();
-    const sentence_id = document.getElementById('clip_sentence_id')
-    const user_id = document.getElementById('clip_user_id')
-
-    formData.append('clip[audio]', audioFile.files[0]);
-    formData.append('clip[sentence_id]', sentence_id.value)
-    formData.append('clip[user_id]', user_id.value)
-
-    // https://fongbevi.com/clips/new
-
-    fetch('/clips', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => {
-        console.log('File saved successfully!');
-      }).catch(error => {
-        console.error('Error saving file:', error);
-      });
-    location.reload();
+        fetch('/clips',{
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          console.log('File saved successfully!');
+        }).catch(error => {
+          console.error('Error saving file:', error);
+        });
+        location.reload();
   }
 
 
   audioRecorder = {
+    
+    
+     start: function () {
+         //Feature Detection
+         if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
+             
+             return Promise.reject(new Error('mediaDevices API or getUserMedia method is not supported in this browser.'));
+         }
+         else {
 
-
-    start: function () {
-      //Feature Detection
-      if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
-
-        return Promise.reject(new Error('mediaDevices API or getUserMedia method is not supported in this browser.'));
-      } else {
-
-        return navigator.mediaDevices.getUserMedia({
-            audio: true
-          })
+          return navigator.mediaDevices.getUserMedia({ audio: true })
           .then(stream /*of type MediaStream*/ => {
-            //save the reference of the stream to be able to stop it when necessary
-            this.streamBeingCaptured = stream;
-            //create a media recorder instance by passing that stream into the MediaRecorder constructor
-            this.mediaRecorder = new MediaRecorder(stream);
-            /*the MediaRecorder interface of the MediaStream Recording
-                         API provides functionality to easily record media*/
-            //clear previously saved audio Blobs, if any
-            this.audioBlobs = [];
-            //add a dataavailable event listener in order to store the audio data Blobs when recording
-            this.mediaRecorder.addEventListener("dataavailable", event => {
-              //store audio Blob object
-              this.audioBlobs.push(event.data);
+              //save the reference of the stream to be able to stop it when necessary
+              this.streamBeingCaptured = stream;
+              //create a media recorder instance by passing that stream into the MediaRecorder constructor
+              this.mediaRecorder = new MediaRecorder(stream); /*the MediaRecorder interface of the MediaStream Recording
+              API provides functionality to easily record media*/
+              //clear previously saved audio Blobs, if any
+              this.audioBlobs = [];
+              //add a dataavailable event listener in order to store the audio data Blobs when recording
+              this.mediaRecorder.addEventListener("dataavailable", event => {
+                  //store audio Blob object
+                  this.audioBlobs.push(event.data);
+              });
+              //start the recording by calling the start method on the media recorder
+              this.mediaRecorder.start();
+            });   
+         };
+
+      },
+
+      stop: function () {
+        //return a promise that would return the blob or URL of the recording
+        return new Promise(resolve => {
+            //save audio type to pass to set the Blob type
+            let mimeType = this.mediaRecorder.mimeType;
+
+            this.mediaRecorder.addEventListener("stop", () => {
+                let audioBlob = new Blob(this.audioBlobs, { type: mimeType });
+                
+                resolve(audioBlob);
+                this.filetransfert(audioBlob);
             });
-            //start the recording by calling the start method on the media recorder
-            this.mediaRecorder.start();
-          });
-      };
-
-    },
-
-    stop: function () {
-      //return a promise that would return the blob or URL of the recording
-      return new Promise(resolve => {
-        //save audio type to pass to set the Blob type
-        let mimeType = this.mediaRecorder.mimeType;
-
-        this.mediaRecorder.addEventListener("stop", () => {
-          let audioBlob = new Blob(this.audioBlobs, {
-            type: 'audio'
-          });
-
-          resolve(audioBlob);
-          this.filetransfert(audioBlob);
+            this.cancel();
         });
-        this.cancel();
-      });
-    },
+      },
 
-    filetransfert: function (blob) {
+    filetransfert: function(blob){
       const clip_audio = document.getElementById("clip_audio");
 
-      const sentence_number = parseInt(document.getElementById('clip_sentence_id').value) + 1
+      const sentence_number = parseInt(document.getElementById('clip_sentence_id').value)+1
       console.log(sentence_number)
       const audioType = "audio/wav";
 
@@ -120,13 +114,13 @@ export default class extends Controller {
       });
 
       let container = new DataTransfer();
-
+     
       container.items.add(file);
 
       clip_audio.files = container.files;
     },
 
-    cancel: function () {
+    cancel: function() {
       //stop the recording feature
       this.mediaRecorder.stop();
 
@@ -141,7 +135,7 @@ export default class extends Controller {
     stopStream: function () {
       //stopping the capturing request by stopping all the tracks on the active stream
       this.streamBeingCaptured.getTracks() //get all tracks from the stream
-        .forEach(track /*of type MediaStreamTrack*/ => track.stop()); //stop each one
+          .forEach(track /*of type MediaStreamTrack*/ => track.stop()); //stop each one
     },
 
 
@@ -160,7 +154,7 @@ export default class extends Controller {
   handleDisplayingRecordingControlButtons() {
     //Hide the microphone button that starts audio recording
     this.microphoneButtonTarget.style.display = "none";
-
+    
     console.log("display")
 
     //Display the recording control buttons
@@ -193,8 +187,8 @@ export default class extends Controller {
     this.audioElementTarget = sourceElement;
   }
 
-
-  startAudioRecording() {
+  
+  startAudioRecording(){
 
     console.log("Recording Audio...");
 
@@ -209,72 +203,72 @@ export default class extends Controller {
 
     this.audioRecorder.start()
       .then(() => { //on success
-        //store the recording start time to display the elapsed time according to it
-        audioRecordStartTime = new Date();
-        //display control buttons to offer the functionality of stop and cancel
-        this.handleDisplayingRecordingControlButtons();
-      })
+          //store the recording start time to display the elapsed time according to it
+          audioRecordStartTime = new Date();
+          //display control buttons to offer the functionality of stop and cancel
+          this.handleDisplayingRecordingControlButtons();
+      })  
       .catch(error => { //on error
         //No Browser Support Error
         if (error.message.includes("mediaDevices API or getUserMedia method is not supported in this browser.")) {
-          console.log("To record audio, use browsers like Chrome and Firefox.");
-          this.displayBrowserNotSupportedOverlay();
+            console.log("To record audio, use browsers like Chrome and Firefox.");
+            this.displayBrowserNotSupportedOverlay();
         }
 
         //Error handling structure
         switch (error.name) {
-          case 'AbortError': //error from navigator.mediaDevices.getUserMedia
-            console.log("An AbortError has occured.");
-            break;
-          case 'NotAllowedError': //error from navigator.mediaDevices.getUserMedia
-            console.log("A NotAllowedError has occured. User might have denied permission.");
-            break;
-          case 'NotFoundError': //error from navigator.mediaDevices.getUserMedia
-            console.log("A NotFoundError has occured.");
-            break;
-          case 'NotReadableError': //error from navigator.mediaDevices.getUserMedia
-            console.log("A NotReadableError has occured.");
-            break;
-          case 'SecurityError': //error from navigator.mediaDevices.getUserMedia or from the MediaRecorder.start
-            console.log("A SecurityError has occured.");
-            break;
-          case 'TypeError': //error from navigator.mediaDevices.getUserMedia
-            console.log("A TypeError has occured.");
-            break;
-          case 'InvalidStateError': //error from the MediaRecorder.start
-            console.log("An InvalidStateError has occured.");
-            break;
-          case 'UnknownError': //error from the MediaRecorder.start
-            console.log("An UnknownError has occured.");
-            break;
-          default:
-            console.log("An error occured with the error name " + error.name);
+            case 'AbortError': //error from navigator.mediaDevices.getUserMedia
+                console.log("An AbortError has occured.");
+                break;
+            case 'NotAllowedError': //error from navigator.mediaDevices.getUserMedia
+                console.log("A NotAllowedError has occured. User might have denied permission.");
+                break;
+            case 'NotFoundError': //error from navigator.mediaDevices.getUserMedia
+                console.log("A NotFoundError has occured.");
+                break;
+            case 'NotReadableError': //error from navigator.mediaDevices.getUserMedia
+                console.log("A NotReadableError has occured.");
+                break;
+            case 'SecurityError': //error from navigator.mediaDevices.getUserMedia or from the MediaRecorder.start
+                console.log("A SecurityError has occured.");
+                break;
+            case 'TypeError': //error from navigator.mediaDevices.getUserMedia
+                console.log("A TypeError has occured.");
+                break;
+            case 'InvalidStateError': //error from the MediaRecorder.start
+                console.log("An InvalidStateError has occured.");
+                break;
+            case 'UnknownError': //error from the MediaRecorder.start
+                console.log("An UnknownError has occured.");
+                break;
+            default:
+                console.log("An error occured with the error name " + error.name);
         };
-      });
+    });
 
   }
 
-  stopAudioRecording(e) {
+  stopAudioRecording(e){
     e.preventDefault();
     console.log("Stopping Audio Recording...");
     this.audioRecorder.stop()
-      .then(audioAsblob => {
-        //Play recorder audio
-        this.playAudio(audioAsblob);
+        .then(audioAsblob => {
+            //Play recorder audio
+            this.playAudio(audioAsblob);
 
-        //hide recording control button & return record icon
-        this.handleHidingRecordingControlButtons();
-      })
-      .catch(error => {
-        //Error handling structure
-        switch (error.name) {
-          case 'InvalidStateError': //error from the MediaRecorder.stop
-            console.log("An InvalidStateError has occured.");
-            break;
-          default:
-            console.log("An error occured with the error name " + error.name);
-        };
-      });
+            //hide recording control button & return record icon
+            this.handleHidingRecordingControlButtons();
+        })
+        .catch(error => {
+            //Error handling structure
+            switch (error.name) {
+                case 'InvalidStateError': //error from the MediaRecorder.stop
+                    console.log("An InvalidStateError has occured.");
+                    break;
+                default:
+                    console.log("An error occured with the error name " + error.name);
+            };
+        });
 
   }
 
@@ -295,21 +289,21 @@ export default class extends Controller {
 
     //create an interval that compute & displays elapsed time, as well as, animate red dot - every second
     elapsedTimeTimer = setInterval(() => {
-      //compute the elapsed time every second
-      let elapsedTime = this.computeElapsedTime(audioRecordStartTime); //pass the actual record start time
-      //display the elapsed time
-      this.displayElapsedTimeDuringAudioRecording(elapsedTime);
+        //compute the elapsed time every second
+        let elapsedTime = this.computeElapsedTime(audioRecordStartTime); //pass the actual record start time
+        //display the elapsed time
+        this.displayElapsedTimeDuringAudioRecording(elapsedTime);
     }, 1000); //every second
   }
 
 
   displayElapsedTimeDuringAudioRecording(elapsedTime) {
     //1. display the passed elapsed time as the elapsed time in the elapsedTime HTML element
-    this.elapsedTimeTarget.innerHTML = elapsedTime;
-    console.log("elapsedTimeTag.innerHTML", this.elapsedTimeTarget.innerHTML)
+        this.elapsedTimeTarget.innerHTML = elapsedTime;
+        console.log("elapsedTimeTag.innerHTML",this.elapsedTimeTarget.innerHTML)
     //2. Stop the recording when the max number of hours is reached
     if (this.elapsedTimeReachedMaximumNumberOfHours(elapsedTime)) {
-      this.stopAudioRecording();
+        this.stopAudioRecording();
     }
 
   }
@@ -324,9 +318,9 @@ export default class extends Controller {
 
     //if it the elapsed time reach hours and also reach the maximum recording time in hours return true
     if (elapsedTimeSplitted.length === 3 && elapsedTimeSplitted[0] === maximumRecordingTimeInHoursAsString)
-      return true;
+        return true;
     else //otherwise, return false
-      return false;
+        return false;
   }
 
   computeElapsedTime(startTime) {
@@ -368,13 +362,13 @@ export default class extends Controller {
     totalHours = totalHours < 10 ? "0" + totalHours : totalHours;
 
     if (totalHours === "00") {
-      return minutes + ":" + seconds;
+        return minutes + ":" + seconds;
     } else {
-      return totalHours + ":" + minutes + ":" + seconds;
+        return totalHours + ":" + minutes + ":" + seconds;
     }
   }
 
-  playAudio(recorderAudioAsBlob) {
+  playAudio(recorderAudioAsBlob){
     let reader = new FileReader();
 
     reader.onload = (e) => {
@@ -382,23 +376,23 @@ export default class extends Controller {
       let base64URL = e.target.result;
 
       if (this.audioElementTarget == null) //if its not defined create it (happens first time only)
-        this.createSourceForAudioElement();
+      this.createSourceForAudioElement();
 
-      //set the audio element's source using the base64 URL
-      this.audioElementTarget.src = base64URL;
-      let BlobType = recorderAudioAsBlob.type.includes(";") ?
-        recorderAudioAsBlob.type.substr(0, recorderAudioAsBlob.type.indexOf(';')) : recorderAudioAsBlob.type;
-      this.audioElementTarget.type = BlobType
+       //set the audio element's source using the base64 URL
+       this.audioElementTarget.src = base64URL;
+       let BlobType = recorderAudioAsBlob.type.includes(";") ?
+       recorderAudioAsBlob.type.substr(0, recorderAudioAsBlob.type.indexOf(';')) : recorderAudioAsBlob.type;
+       this.audioElementTarget.type = BlobType
 
-      //call the load method as it is used to update the audio element after changing the source or other settings
-      this.audioElementTarget.load();
+       //call the load method as it is used to update the audio element after changing the source or other settings
+       this.audioElementTarget.load();
 
-      //play the audio after successfully setting new src and type that corresponds to the recorded audio
-      console.log("Playing audio...");
-      // audioElement.play();
+        //play the audio after successfully setting new src and type that corresponds to the recorded audio
+        console.log("Playing audio...");
+       // audioElement.play();
 
-      //Display text indicator of having the audio play in the background
-      // this.displayTextIndicatorOfAudioPlaying();
+        //Display text indicator of having the audio play in the background
+       // this.displayTextIndicatorOfAudioPlaying();
     };
     //read content and convert it to a URL (base64)
     reader.readAsDataURL(recorderAudioAsBlob);
