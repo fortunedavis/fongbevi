@@ -33,8 +33,9 @@
               src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block", type="audio/wav">
               </audio>
             </td>
-            <td> <%= link_to "Download WAV",  download_audio_admin_clip_path(clip.id) %></td>
-            <td><%= clip.is_valid ? 'Valide' : 'Pas encore valide' %></td>
+            <td> <%= link_to "Download", download_audio_admin_clip_path(clip.id), class: "inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600" %>
+</td>
+            <td><%= clip.is_valid ? '<span class="text-green-500">Valide</span>'.html_safe  : 'Pas encore valide' %></td>
 						<td> 
                <%= link_to "Détails", admin_clip_path(clip), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
             </td>

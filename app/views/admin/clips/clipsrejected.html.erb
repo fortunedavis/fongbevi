@@ -2,7 +2,7 @@
 			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
 				<thead>
 					<tr>
-						<th data-priority="1">Corpus</th>
+						<th data-priority="1">Auteur</th>
 						<th data-priority="2">Audio</th>
 						<th data-priority="2">Status</th>
 						<th data-priority="6">Actions</th>
@@ -11,12 +11,12 @@
 				<tbody>
         <%@clips.each do |clip|%>
 					<tr>
-						<td><%= clip.sentence.content %></td>
+						<td><%= clip.user.fullname ? clip.user.fullname : clip.user.email %></td>
+						<td><%= clip.audio.attachable_filename %></td>
 						<td><audio 
               controls
-              src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block">
-                  Your browser does not support the
-                  <code>audio</code> element.
+              data-recorder-target = "audio"
+              src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block", type="audio/wav">
               </audio>
             </td>
             <td></td>

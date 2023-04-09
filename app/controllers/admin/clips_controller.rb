@@ -51,12 +51,12 @@ class Admin::ClipsController < AuthController
 
   def clipsvalidated
     votes = Vote.where(is_valid: true).pluck("clip_id")
-    @clips = Clip.find(votes)
+    @clips = Clip.where(id: votes)
   end
 
   def clipsrejected
     votes = Vote.where(is_valid: false).pluck("clip_id")
-    @clips = Clip.find(votes)
+    @clips = Clip.where(id: votes)
   end
   
   def clipswithoutvotes
