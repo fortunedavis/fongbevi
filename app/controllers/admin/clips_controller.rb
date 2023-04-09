@@ -62,10 +62,11 @@ class Admin::ClipsController < AuthController
   # DELETE /admin/clips/1 or /admin/clips/1.json
   # DELETE /clips/1 or /clips/1.json
   def destroy
+    @clip.update(has_clip: false)
     @clip.destroy
-
+    puts "destroyed clips"
     respond_to do |format|
-      format.html { redirect_to clips_url, notice: "Clip was successfully destroyed." }
+      format.html { redirect_to admin_clips_url, notice: "Clip was successfully destroyed." }
       format.json { head :no_content }
     end
   end
