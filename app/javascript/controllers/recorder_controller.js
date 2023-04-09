@@ -104,7 +104,7 @@ export default class extends Controller {
     filetransfert: function(blob){
       const clip_audio = document.getElementById("clip_audio");
 
-      const sentence_number = document.getElementById('clip_sentence_id').value+1
+      const sentence_number = parseInt(document.getElementById('clip_sentence_id').value)+1
       console.log(sentence_number)
       const audioType = "audio/wav";
 

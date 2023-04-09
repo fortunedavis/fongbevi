@@ -1,10 +1,13 @@
 class Admin::ClipsController < AuthController
   layout "admin"
   before_action :set_clip, only: %i[ show edit update destroy ]
+  include Pagy::Backend
 
   # GET /admin/clips or /admin/clips.json
   def index
+    @items = params[:items] || 10
     @clips = Clip.all
+    @pagy, @clips= pagy(@clips, items: @items)
   end
 
   # GET /admin/clips/1 or /admin/clips/1.json
