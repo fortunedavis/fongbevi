@@ -35,9 +35,12 @@ Rails.application.routes.draw do
       }
     
     resources :sentences
-    resources :clips 
-    
-    get "download_audio" =>"clips#download_audio"
+
+    resources :clips do
+      get 'download_audio', on: :member
+    end
+
+    #get "download_audio" =>"clips#download_audio"
     #resources :registrations
     get "utilisateurs" =>"users#index" 
     get "audiosvalidates" =>"clips#clipsvalidated"

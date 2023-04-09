@@ -8,7 +8,6 @@
     <%= link_to 'Audios Validés',  admin_audiosvalidates_path, class: "m-2 rounded-lg py-3 px-5 bg-green-500 text-white block font-medium" %>
     <%= link_to 'Audios rejetés', admin_audiosrejetes_path, class: "m-2 rounded-lg py-3 px-5 bg-red-400 text-white block font-medium" %>
     <%= link_to 'Audios non écoutés', admin_audios_sans_vote_path, class: "m-2 rounded-lg py-3 px-5 bg-blue-500 text-white block font-medium" %>
-    <%= link_to 'Download Audios', admin_download_audio_path %>
   </div>
 
   <div id='clips' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
@@ -18,6 +17,7 @@
 						<th data-priority="1">Username</th>
 						<th data-priority="1">Nom audio</th>
 						<th data-priority="2">Audio</th>
+						<th data-priority="2">telecharger</th>
 						<th data-priority="2">Status</th>
 						<th data-priority="6">Actions</th>
 					</tr>
@@ -33,6 +33,7 @@
               src=<%= Rails.application.routes.url_helpers.rails_blob_path(clip.audio, only_path: true)%>, class="inline-block", type="audio/wav">
               </audio>
             </td>
+            <td> <%= link_to "Download WAV",  download_audio_admin_clip_path(clip.id) %></td>
             <td><%= clip.is_valid ? 'Valide' : 'Pas encore valide' %></td>
 						<td> 
                <%= link_to "Détails", admin_clip_path(clip), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>

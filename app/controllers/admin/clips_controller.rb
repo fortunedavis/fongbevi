@@ -1,5 +1,6 @@
 class Admin::ClipsController < AuthController
   layout "admin"
+  
   before_action :set_clip, only: %i[ show edit update destroy ]
   include Pagy::Backend
 
@@ -22,6 +23,18 @@ class Admin::ClipsController < AuthController
   # GET /admin/clips/1/edit
   def edit
   end
+
+  def download_audio
+    clip = Clip.find(params[:id])
+    file = clip.audio.blob
+    data = file.download
+    filename = "audio#{file.filename.to_s}.webm"
+    send_data(data, type: file.content_type, filename: filename)
+  end
+  
+
+ 
+
 
   def create
     @clip = Clip.new(clip_params)
@@ -67,7 +80,6 @@ class Admin::ClipsController < AuthController
   def destroy
     @clip.sentence.update(has_clip: false)
     @clip.destroy
-    puts "destroyed clips"
     respond_to do |format|
       format.html { redirect_to admin_clips_url, notice: "Clip was successfully destroyed." }
       format.json { head :no_content }
