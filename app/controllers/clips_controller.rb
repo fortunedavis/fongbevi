@@ -37,34 +37,48 @@ class ClipsController < AuthController
 
   # POST /clips or /clips.json
   def create
-    #puts clip_params["user_id"]
     user = User.find(clip_params["user_id"])
+    @clip = Clip.new(clip_params.merge(user: user))
 
-    @clip = Clip.new(clip_params.merge({ user: user }))
+    # Initialize AWS SDK for Ruby
+    s3 = Aws::S3::Resource.new(
+      access_key_id: Rails.application.credentials.aws[:access_key_id],
+      secret_access_key: Rails.application.credentials.aws[:secret_access_key],
+      region: 'us-west-2'
+    )
+  
+    if params[:clip][:audio].present?
+      # Generate a unique file name
+      file_name = clip_params["audio"].original_filename
+  
+      # Set the S3 object key using the custom file name
+      s3_object_key = "uploads/#{file_name}"
+  
+      # Upload the file to S3 with the custom file name and content type
+      s3.bucket('fongbevi').object(s3_object_key).upload_file(
+        params[:clip][:audio].tempfile.path,
+        content_type: params[:clip][:audio].content_type
+      )
 
+    end
+  
     respond_to do |format|
-      
-      if @clip.save!
-
+      if @clip.save
         sentence_id = @clip.sentence_id
-
         UserSentence.create(user: current_user, sentence_id: sentence_id)
-        Sentence.find(@clip.sentence_id).update(has_clip: true)
-       
-        # We need to set the sentence has_clip params to true if the clip is saved
-       
-        sentence = Sentence.find(sentence_id)
-        sentence.update(has_clip: true)
-        
-        format.html { redirect_to new_clip_url , notice: "Clip was successfully updated."}
-        format.json {:ok}
+        Sentence.find(sentence_id).update(has_clip: true)
+        format.html { redirect_to new_clip_url, notice: "Clip was successfully updated." }
+        format.json { render :show, status: :created, location: @clip }
       else
-        format.html { render :new, status: :unprocessable_entity}
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @clip.errors, status: :unprocessable_entity }
       end
     end
-
   end
+  
+  
+  
+  
 
   # PATCH/PUT /clips/1 or /clips/1.json
   def update
