@@ -59,7 +59,6 @@ class ClipsController < AuthController
         params[:clip][:audio].tempfile.path,
         content_type: params[:clip][:audio].content_type
       )
-
     end
   
     respond_to do |format|
@@ -74,6 +73,7 @@ class ClipsController < AuthController
         format.json { render json: @clip.errors, status: :unprocessable_entity }
       end
     end
+
   end
   
   
@@ -111,6 +111,6 @@ class ClipsController < AuthController
 
     # Only allow a list of trusted parameters through.
     def clip_params
-      params.require(:clip).permit(:is_valid, :need_votes,:audio,:sentence_id,:user_id)
+      params.require(:clip).permit(:is_valid, :need_votes,:sentence_id,:user_id)
     end
 end

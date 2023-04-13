@@ -23,7 +23,7 @@ export default class extends Controller {
     formData.append('vote[is_valid]', true)
     formData.append('vote[clip_id]', clip_id.value)
     formData.append('vote[user_id]', user_id.value)
-    fetch('http://localhost:3000/votes', {
+    fetch('/votes', {
         method: 'POST',
         body: formData,
       })
