@@ -1,6 +1,10 @@
 <div id="recorder-container" data-controller="recorder">
   <% if @sentence.present? %>
+    <% if flash[:notice].present? %>
+      <div class="bg-green-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"><%= flash[:notice] %></div>
+    <% end %>
     <%= form_with(model: clip, class: "contents") do |form| %>
+      
       <% if clip.errors.any? %>
         <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
           <h2><%= pluralize(clip.errors.count, "error") %> prohibited this clip from being saved:</h2>
@@ -11,26 +15,28 @@
           </ul>
         </div>
       <% end %>
+
       <div class="flex items-center justify-center pt-2">
         <p class='text-slate-500 px-5 mt-5'> Click Veuillez prononcer à haute voix la traduction en Fongbe</p>
       </div>  
 
-<div class="animate__animated animate__bounceInLeft ">
-  <div class="pb-5">
-    <div class="flex flex-col items-center justify-center w-full">
-      <p class="text-sm font-bold mb-4 p-4"><%= @sentence.content_fr if @sentence.present? %></p>
-      <div class="bg-blue-100 rounded-lg shadow-lg p-4">
-        <p class="text-l text-center sm:text-sm mb-5"><%= @sentence.content_fon if @sentence.present? %></p>
+      <div class="animate__animated animate__bounceInLeft ">
+        <div class="pb-5">
+          <div class="flex flex-col items-center justify-center w-full">
+            <p class="text-sm font-bold mb-4 p-4"><%= @sentence.content_fr if @sentence.present? %></p>
+            <div class="bg-blue-100 rounded-lg shadow-lg p-4">
+              <p class="text-l text-center sm:text-sm mb-5"><%= @sentence.content_fon if @sentence.present? %></p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
       <div class="flex items-center justify-center flex-wrap  flex justify-center items-center w-full">
+        
         <div class="flex flex-row mb-6">
-         
           <%= link_to "Passer", "javascript:location.reload(true)", class: "text-sm bg-blue-400 tems-center justify-center rounded-full hover:bg-blue-700 px-4 py-2 shadow-lg sm:text-sm "  %>
           <audio controls class="block hide" data-recorder-target="audioElement"></audio>
         </div>
+
         <div class="form-group mb-6 block container flex justify-center items-center">
           <i class="start-recording-button
             text-5xl text-red-500

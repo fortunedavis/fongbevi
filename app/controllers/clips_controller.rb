@@ -66,7 +66,7 @@ class ClipsController < AuthController
         sentence_id = @clip.sentence_id
         UserSentence.create(user: current_user, sentence_id: sentence_id)
         Sentence.find(sentence_id).update(has_clip: true)
-        format.html { redirect_to new_clip_url, notice: "Clip was successfully updated." }
+        format.html { redirect_to new_clip_url, notice: "Audio bien enrégistré !!!" }
         format.json { render :show, status: :created, location: @clip }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -111,6 +111,6 @@ class ClipsController < AuthController
 
     # Only allow a list of trusted parameters through.
     def clip_params
-      params.require(:clip).permit(:is_valid, :need_votes,:sentence_id,:user_id)
+      params.require(:clip).permit(:is_valid, :audio, :need_votes,:sentence_id,:user_id)
     end
 end
