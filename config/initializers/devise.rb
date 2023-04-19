@@ -1,51 +1,3 @@
-# frozen_string_literal: true
-
-#! Create custom failure for turbo
-#class TurboFailureApp < Devise::FailureApp
- # def respond
-  #  if request_format = :turbo_stream
-   #   redirect
-   # else
-    #  super
-    #end  
-  #end
-
-  #def skip_format?
-  #  %w(html turbo_stream */*).include? request_format.to_s
-  #end
-#end
-
-#class TurboController < ApplicationController
- # class Responder < ActionController::Responder
-  #  def to_turbo_stream
-  #    controller.render(options.merge(formats: :html))
-   # rescue ActionView::MissingTemplate => error
-   #   if get?
-   #     raise error
-    #  elsif has_errors? && default_action
-    #    render rendering_options.merge(formats: :html, status: :unprocessable_entity)
-    #  else
-    #    redirect_to navigation_location
-    #  end
-    #end
-  #end
-
-  #self.responder = Responder
-  #respond_to :html, :turbo_stream
-#end      
-class TurboFailureApp < Devise::FailureApp
-  def respond
-    if request_format == :turbo_stream
-      redirect
-    else
-      super
-    end
-  end
-
-  def skip_format?
-    %w(html turbo_stream */*).include? request_format.to_s
-  end
-end
 
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
@@ -61,7 +13,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '4dad6547e0338af12734dfd092102f75bb2a21597721ff872bba89f775b1526a084c0d5a858c4cdf4b665c068af4576e8cc69c2354765dc398914e3cf65c0877'
+  config.secret_key = '4dad6547e0338af12734dfd092102f75bb2a21597721ff872bba89f775b1526a084c0d5a858c4cdf4b665c068af4576e8cc69c2354765dc398914e3cf65c0877'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -324,11 +276,11 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  config.warden do |manager|
-    manager.failure_app = TurboFailureApp
-  #   manager.intercept_401 = false
+ # config.warden do |manager|
+  #  manager.failure_app = TurboFailureApp
+  #  manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
-  end
+  #end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -390,8 +342,9 @@ Devise.setup do |config|
   #   end
   # end
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.jwt_secret_key
-    #jwt.secret = b0c7b37a4d5472f30d886d90118df20c2987e44d5c90f2b0978c87ed054e1d226298eb0efe159088fcc976069ef16f91f545ce3ebce54c28b0eadf6f7996033e
+    #jwt.secret = Rails.application.credentials.secret_key_base
+   # jwt.secret = ENV["secret_key_base"]
+    jwt.secret = "4e3bbe5f62e2802054a107959391760de04c07ced214af7aad7405a7d121e2011e7d1adf88cda0c1fbecac5bbfb4b91430b9b8c76e3f483505af0446d272f40b"
     jwt.dispatch_requests = [
       ['POST', %r{^/api/users/sign_in$}],
       ['POST', %r{/api/users}]
